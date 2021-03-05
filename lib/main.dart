@@ -1,7 +1,15 @@
+import 'package:ElMenus_ITI/views/login.dart';
 import 'package:flutter/material.dart';
 
+
+
 void main() {
-  runApp(MyApp());
+  runApp(
+  MaterialApp(
+    //debugShowCheckedModeBanner: false,
+    home: Login(),
+  )
+);
 }
 
 class MyApp extends StatelessWidget {
@@ -13,7 +21,7 @@ class MyApp extends StatelessWidget {
           title: Text('El-Menus'),
         ),
         body: Center(
-          child: Text("Hello World"),
+          child: Login(),
         ),
       ),
     );
