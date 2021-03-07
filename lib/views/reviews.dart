@@ -10,7 +10,17 @@ class _ReviewsState extends State<Reviews> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        // leading: Icon(
+        //   Icons.arrow_back_outlined,
+        //   color: Colors.black,
+        // ),
+        title: Text(
+          'Reviews',
+          style: TextStyle(color: Colors.black),
+        ),
+      ),
       body: SafeArea(
         child: ListView(
           children: [
@@ -40,7 +50,7 @@ class _ReviewsState extends State<Reviews> {
                             child: Text(
                               'Add review',
                               style:
-                              TextStyle(fontSize: 20, color: Colors.white),
+                                  TextStyle(fontSize: 20, color: Colors.white),
                             ),
                           ),
                           onPressed: () {},
