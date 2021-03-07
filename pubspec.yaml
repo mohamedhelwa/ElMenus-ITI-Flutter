@@ -15,15 +15,20 @@ dependencies:
   cupertino_icons: ^1.0.0
 
 dev_dependencies:
+  flutter_rating_bar: ^4.0.0
+  flutter_svg: ^0.19.3
+  provider: ^5.0.0
   flutter_test:
     sdk: flutter
+
+
 
 flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/
+    - assets/images/
 
   # example:
   # fonts:
