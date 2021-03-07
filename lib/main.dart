@@ -1,5 +1,6 @@
 import 'package:ElMenus_ITI/views/checkOut.dart';
 import 'package:ElMenus_ITI/views/login.dart';
+import 'package:ElMenus_ITI/views/giftMeals.dart';
 import 'package:ElMenus_ITI/views/reviews.dart';
 import 'package:ElMenus_ITI/views/settings.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
         '/Reviews': (BuildContext context) => new Reviews(),
         '/Settings': (BuildContext context) => new Settings(),
         '/Login': (BuildContext context) => new Login(),
+        '/GiftMeals': (BuildContext context) => new GiftMeal(),
       },
     );
   }
@@ -62,6 +64,16 @@ class MyHome extends StatelessWidget {
                 Navigator.pushNamed(context, "/Login");
               },
               child: Text('Login'),
+            ),
+            SizedBox(
+              height: 50,
+            ),
+            
+            RaisedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, "/GiftMeals");
+              },
+              child: Text('Gift Meals'),
             ),
           ],
         ),
