@@ -25,6 +25,9 @@ flutter:
   assets:
     - assets/user.jpg
     - assets/cover.jpg
+    - assets/mac.png
+    - assets/master-card.png
+    - assets/avatar.png
 
   # example:
   # fonts:
