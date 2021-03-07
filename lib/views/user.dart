@@ -1,5 +1,6 @@
   
 import 'package:ElMenus_ITI/views/login.dart';
+import 'package:ElMenus_ITI/views/settings.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatelessWidget {
@@ -18,7 +19,7 @@ class UserPage extends StatelessWidget {
       onPressed: () {
         Navigator.push(
       context, 
-      MaterialPageRoute(builder: (context)=>Login()),
+      MaterialPageRoute(builder: (context)=>Settings()),
       );
       },
     )
