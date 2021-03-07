@@ -1,11 +1,15 @@
-import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_info.dart';
-import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_menu.dart';
-import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_review.dart';
+//import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_info.dart';
+//import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_menu.dart';
+//import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_review.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import '../../views/reviews.dart';
+import 'restaurant_info.dart';
+import 'restaurant_menu.dart';
 
 class RestaurantHome extends StatefulWidget {
   @override
@@ -31,7 +35,8 @@ class _RestaurantHomeState extends State<RestaurantHome>
           child: CustomScrollView(
             slivers: <Widget>[
               SliverPersistentHeader(
-                delegate: CustomSliverAppBarDelegate(context,expandedHeight: 200),
+                delegate:
+                    CustomSliverAppBarDelegate(context, expandedHeight: 200),
                 pinned: true,
               ),
               SliverFillRemaining(
@@ -149,26 +154,27 @@ class _RestaurantHomeState extends State<RestaurantHome>
                 fontSize: 16,
               ),
               indicator: BoxDecoration(
-                border: Border(bottom: BorderSide(color: Colors.deepOrange, width: 2.0)),
+                border: Border(
+                    bottom: BorderSide(color: Colors.deepOrange, width: 2.0)),
                 color: Colors.white,
               ),
               tabs: [
                 Tab(
                   child: Text(
                     'MENU',
-                    style: TextStyle( fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
                 Tab(
                   child: Text(
                     'INFO',
-                    style: TextStyle( fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
                 Tab(
                   child: Text(
                     'REVIEW',
-                    style: TextStyle( fontSize: 15),
+                    style: TextStyle(fontSize: 15),
                   ),
                 ),
               ],
@@ -199,7 +205,8 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final BuildContext context;
   final double expandedHeight;
 
-  const CustomSliverAppBarDelegate(this.context, {
+  const CustomSliverAppBarDelegate(
+    this.context, {
     @required this.expandedHeight,
   });
 

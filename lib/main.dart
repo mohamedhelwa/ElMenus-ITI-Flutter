@@ -1,5 +1,6 @@
 import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:ElMenus_ITI/Restaurant/views/resturant_home.dart';
+import 'package:ElMenus_ITI/views/MainPage.dart';
 import 'package:ElMenus_ITI/views/checkOut.dart';
 import 'package:ElMenus_ITI/views/login.dart';
 import 'package:ElMenus_ITI/views/giftMeals.dart';
@@ -17,7 +18,6 @@ void main() {
     create: (context) => Cart(),
     child: MyApp(),
   ));
-
 }
 
 class MyApp extends StatelessWidget {
@@ -32,6 +32,7 @@ class MyApp extends StatelessWidget {
         '/Login': (BuildContext context) => new Login(),
         '/GiftMeals': (BuildContext context) => new GiftMeal(),
         '/restaurantHome': (BuildContext context) => new RestaurantHome(),
+        '/mainPage': (BuildContext context) => new MainPage(),
       },
     );
   }
@@ -72,7 +73,6 @@ class MyHome extends StatelessWidget {
               },
               child: Text('Settings'),
             ),
-
             RaisedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/Login");
@@ -82,7 +82,6 @@ class MyHome extends StatelessWidget {
             SizedBox(
               height: 50,
             ),
-
             RaisedButton(
               onPressed: () {
                 Navigator.pushNamed(context, "/GiftMeals");
@@ -93,6 +92,15 @@ class MyHome extends StatelessWidget {
               child: Text('Open route'),
               onPressed: () {
                 Navigator.pushNamed(context, "/restaurantHome");
+              },
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            RaisedButton(
+              child: Text('Main Page'),
+              onPressed: () {
+                Navigator.pushNamed(context, "/mainPage");
               },
             ),
           ],
