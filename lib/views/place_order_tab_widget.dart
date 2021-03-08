@@ -24,47 +24,47 @@ class PlaceOrderTabWidget extends StatelessWidget {
                 height: 20.0,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.check_circle,
                     color: Colors.deepOrange,
-                    size: 30.0,
+                    size: 27.0,
                   ),
                   Container(
-                    width: 70.0,
+                    width: 60.0,
                     height: 5.0,
                     color: Colors.grey,
                   ),
                   Icon(
                     Icons.circle,
                     color: Colors.grey,
-                    size: 30.0,
+                    size: 27.0,
                   ),
                   Container(
-                    width: 70.0,
+                    width: 60.0,
                     height: 5.0,
                     color: Colors.grey,
                   ),
                   Icon(
                     Icons.circle,
                     color: Colors.grey,
-                    size: 30.0,
+                    size: 27.0,
                   ),
                   Container(
-                    width: 70.0,
+                    width: 60.0,
                     height: 5.0,
                     color: Colors.grey,
                   ),
                   Icon(
                     Icons.circle,
                     color: Colors.grey,
-                    size: 30.0,
+                    size: 27.0,
                   ),
                 ],
               ),
               SizedBox(
-                height: 25.0,
+                height: 50.0,
               ),
               Row(
                 children: [
@@ -72,7 +72,7 @@ class PlaceOrderTabWidget extends StatelessWidget {
                     'Placed',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 30.0,
+                      fontSize: 27.0,
                     ),
                   ),
                 ],
@@ -249,6 +249,9 @@ class PlaceOrderTabWidget extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          SizedBox(
+            height: 70.0,
           ),
         ],
       );

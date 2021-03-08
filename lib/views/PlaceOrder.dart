@@ -26,8 +26,8 @@ class _PlaceOrderState extends State<PlaceOrder> {
         ),
       ),
       body: SlidingUpPanel(
-        minHeight: 350.0,
-        maxHeight: MediaQuery.of(context).size.height - 180,
+        minHeight: MediaQuery.of(context).size.height - 550,
+        maxHeight: MediaQuery.of(context).size.height - 100,
         panelBuilder: (scrollController) => buildSlidingPanel(
           scrollController: scrollController,
           //panelController: panelController,
@@ -36,7 +36,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
           //alignment: Alignment.center,
           children: <Widget>[
             Container(
-              height: 500,
+              height: 600,
               child: Image.asset('assets/images/background 1.png'),
             ),
             Padding(
@@ -76,55 +76,65 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            'ETA',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            '11:20 PM | ',
-                            style: TextStyle(
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            'Total',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            '384.47 EGP |',
-                            style: TextStyle(
-                              fontSize: 17.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Icon(
-                            Icons.account_balance_wallet,
-                            color: Colors.amber,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Expanded(
-                            child: Text(
-                              'Cash',
-                              style: TextStyle(
+                          Row(
+                            children: [
+                              Text(
+                                'ETA',
+                                style: TextStyle(
                                   color: Colors.grey,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold),
-                            ),
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                '11:20 PM  |',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                'Total',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 15.0,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                '384.47 EGP |',
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.account_balance_wallet,
+                                color: Colors.amber,
+                              ),
+                              SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                'Cash',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 15.0,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ],
                           ),
                         ],
                       ),

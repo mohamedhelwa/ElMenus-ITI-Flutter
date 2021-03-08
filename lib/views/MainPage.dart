@@ -27,11 +27,13 @@ class _MainPageState extends State<MainPage> {
       'Index 1: Dine out Page',
       style: optionStyle,
     ),
-    //MyOrdersPage(),
-    //NoOrdersPage(),
+
     //PreviousOrderCard(),
     //ViewBasketBox(),
     PlaceOrder(),
+    // NoOrdersPage(),
+    // MyOrdersPage(),
+
     Text(
       'Index 3: Me Page',
       style: optionStyle,
