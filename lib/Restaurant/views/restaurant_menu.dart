@@ -1,4 +1,4 @@
-import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/cart_page.dart';
+import 'package:ElMenus_ITI/Restaurant/views/cart_page.dart';
 import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:ElMenus_ITI/Restaurant/models/dish.dart';
 import 'package:ElMenus_ITI/Restaurant/models/restaurant.dart';
