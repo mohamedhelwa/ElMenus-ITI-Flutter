@@ -14,8 +14,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'Restaurant/views/restaurant_menu.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  Firebase.initializeApp();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(ChangeNotifierProvider(
     create: (context) => Cart(),
     child: MyApp(),

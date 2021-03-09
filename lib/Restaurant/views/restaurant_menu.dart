@@ -10,6 +10,8 @@ import 'package:provider/provider.dart';
 import 'cart_page.dart';
 
 class RestaurantMenu extends StatefulWidget {
+  String restaurantId;
+RestaurantMenu({this.restaurantId});
   @override
   _RestaurantMenuState createState() => _RestaurantMenuState();
 }
@@ -21,14 +23,6 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     Dish(dishName: 'keyboard ', dishPrice: '40.0'),
   ];
 
-@override
-  void initState() {
-    Firebase.initializeApp().whenComplete(() { 
-      print("completed");
-      setState(() {});
-    });
-    super.initState();
-  }
   @override
   Widget build(BuildContext context) {
     // Provider
@@ -64,79 +58,90 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
               )
             ],
           ),
-          body: Builder(
-            builder: (BuildContext context) { 
+          body: StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance.collection('Dishes').where('restaurantId',isEqualTo: widget.restaurantId).snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasError) {
+                return Center(child: Text('Something Went wrong'));
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: Text('Loading....'));
+              }
               return ListView.builder(
-              itemCount: dishes.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  child: Card(
-                    child: Row(
-                      children: <Widget>[
-                        // dish details Column
-                        Expanded(
-                          flex: 2,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Row(
+                itemCount: snapshot.data.docs.length,
+                itemBuilder: (BuildContext context, int index) {
+                  DocumentSnapshot dish = snapshot.data.docs[index];
+                  return GestureDetector(
+                    child: Flexible(
+                      child: Card(
+                        child: Row(
+                          children: <Widget>[
+                            // dish details Column
+                            Expanded(
+                              flex: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Icon(
-                                    Icons.add_box_outlined,
-                                    color: Colors.black,
-                                    size: 40,
+                                  Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.add_box_outlined,
+                                        color: Colors.black,
+                                        size: 30,
+                                      ),
+                                      Text(
+                                        dish.data()['dishName'],
+                                        style: TextStyle(fontSize: 12),
+                                      )
+                                    ],
                                   ),
                                   Text(
-                                    dishes[index].dishName,
-                                    style: TextStyle(fontSize: 20),
+                                    dish.data()['dishDescription'],
+                                    style: TextStyle(
+                                        fontSize: 15, color: Colors.grey),
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      Expanded(
+                                        flex: 1,
+                                        child: Text(
+                                          dish.data()['dishPrice'].toString(),
+                                          style: TextStyle(
+                                              fontSize: 15, color: Colors.black),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Container(),
+                                      ),
+                                      Expanded(
+                                          child: Icon(Icons.thumb_up_outlined))
+                                    ],
                                   )
                                 ],
                               ),
-                              Text(
-                                dishes[index].dishPrice,
-                                style:
-                                    TextStyle(fontSize: 15, color: Colors.grey),
-                              ),
-                              Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    flex: 1,
-                                    child: Text(
-                                      '122.99',
-                                      style: TextStyle(
-                                          fontSize: 15, color: Colors.black),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    flex: 2,
-                                    child: Container(),
-                                  ),
-                                  Expanded(child: Icon(Icons.thumb_up_outlined))
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                            ),
 
-                        // dish photo
-                        Expanded(
-                          flex: 1,
-                          child: Image.network(
-                            'https://firebasestorage.googleapis.com/v0/b/elmenus-iti.appspot.com/o/Images%2Fdishes_images%2Fbig%20mac.jpg?alt=media&token=437c33ac-7028-4847-8b69-b8014023d196',
-                            height: 80,
-                          ),
-                        )
-                      ],
+                            // dish photo
+                            Expanded(
+                              flex: 1,
+                              child: Image.network(
+                                dish.data()['dishImage'],
+                                height: 80,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  onTap: () {
-                    cart.addToCart(dishes[index]);
-                  },
-                );
-              },
-            );
-             },
-            
+                    onTap: () {
+                      cart.addToCart(dishes[index]);
+                    },
+                  );
+                },
+              );
+            },
           ),
         );
       },

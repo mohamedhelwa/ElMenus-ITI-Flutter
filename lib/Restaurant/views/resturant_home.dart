@@ -18,49 +18,65 @@ class RestaurantHome extends StatefulWidget {
 
 class _RestaurantHomeState extends State<RestaurantHome>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-
-  @override
-  void initState() {
-    _tabController = new TabController(length: 3, vsync: this);
-    Firebase.initializeApp().whenComplete(() { 
-      print("completed");
-      setState(() {});
-    });
-    super.initState();
-  }
-
+    TabController _tabController;
+    String restaurantId = '68UmChUROnCRm6wriwhy';
+    String restaurantImage;
+  // CollectionReference restaurant = FirebaseFirestore.instance.collection('Restaurants');
+  // Stream rest = FirebaseFirestore.instance.collection('Restaurants').doc('4Hpczs92kSscD9Y2af7c').snapshots();
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              SliverPersistentHeader(
-                delegate:
-                    CustomSliverAppBarDelegate(context, expandedHeight: 200),
-                pinned: true,
-              ),
-              SliverFillRemaining(
-                child: buildBody(),
-              )
-            ],
+      home: FutureBuilder(
+        future: getData(),
+        builder: (BuildContext context,AsyncSnapshot<DocumentSnapshot> snapshot){
+          if (snapshot.hasError) {
+          return Text('Something went wrong');
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Text("Loading");
+        }
+          return Scaffold(
+          backgroundColor: Colors.white,
+          body: SafeArea(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                SliverPersistentHeader(
+                  delegate:
+                      CustomSliverAppBarDelegate(context,snapshot.data, expandedHeight: 200,),
+                  pinned: true,
+                ),
+                SliverFillRemaining(
+                  child: buildBody(snapshot.data,_tabController)
+                )
+              ],
+            ),
           ),
-        ),
+        );
+        }
+        ,
+        
       ),
     );
   }
 
+  Future<DocumentSnapshot> getData() async {
+    await Firebase.initializeApp();
+    return await FirebaseFirestore.instance
+        .collection("Restaurants")
+        .doc(restaurantId)
+        .get();
+  }
+
   // Body
-  Widget buildBody() => Padding(
+  Widget buildBody(snapshot,_tabController) => Padding(
         padding: EdgeInsets.only(top: 70.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'McDonald',
+              snapshot.data()['restaurantName'],
               style: TextStyle(fontSize: 30),
             ),
             Row(
@@ -85,7 +101,7 @@ class _RestaurantHomeState extends State<RestaurantHome>
               ],
             ),
             Text(
-              'fast food',
+              snapshot.data()['restaurantType'],
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 15,
@@ -97,7 +113,7 @@ class _RestaurantHomeState extends State<RestaurantHome>
                   Icons.location_on,
                   size: 20,
                 ),
-                Text('39 Abbas ElAkkad Street'),
+                Text(snapshot.data()['adress']),
               ],
             ),
             Padding(
@@ -147,57 +163,63 @@ class _RestaurantHomeState extends State<RestaurantHome>
             ),
 
             // the tab bar with two items
-            TabBar(
-              indicatorColor: Colors.transparent,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              labelStyle: TextStyle(
-                fontSize: 16,
-              ),
-              unselectedLabelStyle: TextStyle(
-                fontSize: 16,
-              ),
-              indicator: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(color: Colors.deepOrange, width: 2.0)),
-                color: Colors.white,
-              ),
-              tabs: [
-                Tab(
-                  child: Text(
-                    'MENU',
-                    style: TextStyle(fontSize: 15),
-                  ),
+            DefaultTabController(
+              length: 3,
+              child: TabBar(
+                indicatorColor: Colors.transparent,
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                labelStyle: TextStyle(
+                  fontSize: 16,
                 ),
-                Tab(
-                  child: Text(
-                    'INFO',
-                    style: TextStyle(fontSize: 15),
-                  ),
+                unselectedLabelStyle: TextStyle(
+                  fontSize: 16,
                 ),
-                Tab(
-                  child: Text(
-                    'REVIEW',
-                    style: TextStyle(fontSize: 15),
-                  ),
+                indicator: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: Colors.deepOrange, width: 2.0)),
+                  color: Colors.white,
                 ),
-              ],
-              controller: _tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
+                tabs: [
+                  Tab(
+                    child: Text(
+                      'MENU',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'INFO',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'REVIEW',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                  ),
+                ],
+                controller: this._tabController,
+                indicatorSize: TabBarIndicatorSize.tab,
+              ),
             ),
             // create widgets for each tab bar here
             Expanded(
               flex: 1,
-              child: TabBarView(
-                children: [
-                  // first tab bar view widget
-                  RestaurantMenu(),
-                  // second tab bar view widget
-                  RestaurantInfo(),
-                  // third tab bar view widget
-                  Reviews(),
-                ],
-                controller: _tabController,
+              child: DefaultTabController(
+                length: 3,
+                child: TabBarView(
+                  children: [
+                    // first tab bar view widget
+                    RestaurantMenu(restaurantId: restaurantId,),
+                    // second tab bar view widget
+                    RestaurantInfo(restaurantData: snapshot,),
+                    // third tab bar view widget
+                    Reviews(),
+                  ],
+                  controller: this._tabController,
+                ),
               ),
             ),
           ],
@@ -208,21 +230,17 @@ class _RestaurantHomeState extends State<RestaurantHome>
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final BuildContext context;
   final double expandedHeight;
+  final DocumentSnapshot snapshot;
 
-  const CustomSliverAppBarDelegate(
-    this.context, {
-    @required this.expandedHeight,
-  });
+  const CustomSliverAppBarDelegate(this.context, this.snapshot, {@required this.expandedHeight});
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final size = 70;
     final top = expandedHeight - shrinkOffset - size / 2;
 
     return Stack(
-      fit: StackFit.expand,
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none, fit: StackFit.expand,
       children: [
         buildBackground(shrinkOffset),
         buildAppBar(shrinkOffset),
@@ -250,7 +268,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
             ),
             onPressed: () => Navigator.of(context).pop(),
           ),
-          title: Text('Resturant'),
+          title: Text(snapshot.data()['restaurantName']),
           backgroundColor: Colors.deepOrange,
         ),
       );
@@ -278,7 +296,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Image.network(
-                  'https://firebasestorage.googleapis.com/v0/b/elmenus-iti.appspot.com/o/Images%2FresturansLogos%2Fmc.png?alt=media&token=30407695-a8de-4aaf-9d5f-0d8aac8c1817',
+                  snapshot.data()['logo'],
                   width: 70,
                   height: 70,
                 ),

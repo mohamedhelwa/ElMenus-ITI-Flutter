@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class RestaurantInfo extends StatefulWidget {
+
+  dynamic restaurantData;
+  RestaurantInfo({this.restaurantData});
+  
   @override
   _RestaurantInfoState createState() => _RestaurantInfoState();
 }
@@ -41,7 +45,7 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          'restaurant address details',
+                          widget.restaurantData.data()['adress'],
                           style: TextStyle(fontSize: 15, color: Colors.black),
                         ),
                       ),
@@ -96,7 +100,7 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                                   TextStyle(color: Colors.grey, fontSize: 15),
                             ),
                             Text(
-                              '11:00 Am - 02:30 Am',
+                              widget.restaurantData.data()['restaurantOpening']+' Am -'+ widget.restaurantData.data()['restaurantClosing']+' Pm',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 20),
                             ),
@@ -141,7 +145,7 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                                   TextStyle(color: Colors.grey, fontSize: 15),
                             ),
                             Text(
-                              '11:00 Am - 02:30 Am',
+                              widget.restaurantData.data()['restaurantOpening']+' Am -'+ widget.restaurantData.data()['restaurantClosing']+' Pm',
                               style:
                                   TextStyle(color: Colors.black, fontSize: 20),
                             ),
@@ -197,23 +201,7 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                                 ],
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Icon(
-                                    Icons.room_service_outlined,
-                                    size: 40,
-                                    color: Colors.black,
-                                  ),
-                                  Text(
-                                    'Outdoor',
-                                    style: TextStyle(
-                                        color: Colors.black, fontSize: 12),
-                                  ),
-                                ],
-                              ),
-                            )
+                          
                           ],
                         ),
                       ),
@@ -274,7 +262,7 @@ class _RestaurantInfoState extends State<RestaurantInfo> {
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              'Branch_name',
+                              widget.restaurantData.data()['restaurantBranchs'][0],
                               style: TextStyle(
                                   color: Colors.blueGrey[800],
                                   fontSize: 15,),
