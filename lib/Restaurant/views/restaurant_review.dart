@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Reviews extends StatefulWidget {
@@ -6,6 +7,13 @@ class Reviews extends StatefulWidget {
 }
 
 class _ReviewsState extends State<Reviews> {
+
+  addReview(){
+    Map<String,dynamic> review = {'name':'Ahmed'};
+    CollectionReference reviews = FirebaseFirestore.instance.collection('Reviews');
+    reviews.add(review);
+    print('in add');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +51,7 @@ class _ReviewsState extends State<Reviews> {
                               TextStyle(fontSize: 20, color: Colors.white),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: addReview,
                         ),
                       ),
                     ),

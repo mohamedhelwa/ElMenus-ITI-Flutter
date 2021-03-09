@@ -5,6 +5,7 @@ import 'package:ElMenus_ITI/views/login.dart';
 import 'package:ElMenus_ITI/views/giftMeals.dart';
 import 'package:ElMenus_ITI/views/reviews.dart';
 import 'package:ElMenus_ITI/views/settings.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -13,6 +14,7 @@ import 'Restaurant/views/restaurant_menu.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  Firebase.initializeApp();
   runApp(ChangeNotifierProvider(
     create: (context) => Cart(),
     child: MyApp(),

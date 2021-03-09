@@ -1,11 +1,15 @@
 import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_info.dart';
 import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_menu.dart';
 import 'file:///D:/ITI/Final%20Project/Project%20-%20Flutter/ElMenus-ITI-Flutter/lib/Restaurant/views/restaurant_review.dart';
+import 'package:ElMenus_ITI/Restaurant/models/restaurant.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantHome extends StatefulWidget {
   @override
@@ -19,6 +23,10 @@ class _RestaurantHomeState extends State<RestaurantHome>
   @override
   void initState() {
     _tabController = new TabController(length: 3, vsync: this);
+    Firebase.initializeApp().whenComplete(() { 
+      print("completed");
+      setState(() {});
+    });
     super.initState();
   }
 
