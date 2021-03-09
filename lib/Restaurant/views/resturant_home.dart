@@ -218,7 +218,7 @@ class _RestaurantHomeState extends State<RestaurantHome>
                     // third tab bar view widget
                     Reviews(),
                   ],
-                  controller: this._tabController,
+                  controller: _tabController,
                 ),
               ),
             ),
