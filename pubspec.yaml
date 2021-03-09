@@ -9,6 +9,8 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  carousel_slider: ^3.0.0
+  smooth_star_rating: ^1.1.1
   flutter:
     sdk: flutter
 

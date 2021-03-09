@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:ElMenus_ITI/HomePage/searchBar.dart';
+import 'package:ElMenus_ITI/HomePage/carosel.dart';
+import 'package:ElMenus_ITI/HomePage/resturantsLis.dart';
+import 'package:ElMenus_ITI/DineOutPage/discoverbymood.dart';
+import 'package:ElMenus_ITI/DineOutPage/discoverlocation.dart';
+import 'package:ElMenus_ITI/DineOutPage/discoverdish.dart';
+import 'package:ElMenus_ITI/DineOutPage/discovernew.dart';
+
+
 //import 'DeliveryPage.dart';
 //import 'ForTest/DragableScrollableSheet.dart';
 //import 'ForTest/HorizontalStepper.dart';
@@ -19,14 +28,29 @@ class _MainPageState extends State<MainPage> {
   static const TextStyle optionStyle =
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetPages = <Widget>[
-    Text(
-      'Index 0: Delivery Main Page',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Dine out Page',
-      style: optionStyle,
-    ),
+    Container(
+        child: SingleChildScrollView(
+            child: Column(
+      children: [
+        Searchbar(),
+        Padding(
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Carosel(),
+        ),
+        Resturants(),
+      ],
+    ))),
+    Container(
+        child: SingleChildScrollView(
+            child: Column(
+      children: [
+        Searchbar(),
+        DiscoverMood(),
+        DiscoverLocation(),
+        DiscoverDish(),
+        DiscoverNew()
+      ],
+    ))),
 
     //PreviousOrderCard(),
     //ViewBasketBox(),
