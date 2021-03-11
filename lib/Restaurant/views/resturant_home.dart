@@ -18,45 +18,46 @@ class RestaurantHome extends StatefulWidget {
 
 class _RestaurantHomeState extends State<RestaurantHome>
     with SingleTickerProviderStateMixin {
-    TabController _tabController;
-    String restaurantId = '68UmChUROnCRm6wriwhy';
-    String restaurantImage;
+  TabController _tabController;
+  String restaurantId = '68UmChUROnCRm6wriwhy';
+  String restaurantImage;
   // CollectionReference restaurant = FirebaseFirestore.instance.collection('Restaurants');
   // Stream rest = FirebaseFirestore.instance.collection('Restaurants').doc('4Hpczs92kSscD9Y2af7c').snapshots();
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: FutureBuilder(
         future: getData(),
-        builder: (BuildContext context,AsyncSnapshot<DocumentSnapshot> snapshot){
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
+            return Text('Something went wrong');
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Text("Loading");
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Text("Loading");
+          }
           return Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverPersistentHeader(
-                  delegate:
-                      CustomSliverAppBarDelegate(context,snapshot.data, expandedHeight: 200,),
-                  pinned: true,
-                ),
-                SliverFillRemaining(
-                  child: buildBody(snapshot.data,_tabController)
-                )
-              ],
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverPersistentHeader(
+                    delegate: CustomSliverAppBarDelegate(
+                      context,
+                      snapshot.data,
+                      expandedHeight: 200,
+                    ),
+                    pinned: true,
+                  ),
+                  SliverFillRemaining(
+                      child: buildBody(snapshot.data, _tabController))
+                ],
+              ),
             ),
-          ),
-        );
-        }
-        ,
-        
+          );
+        },
       ),
     );
   }
@@ -70,7 +71,7 @@ class _RestaurantHomeState extends State<RestaurantHome>
   }
 
   // Body
-  Widget buildBody(snapshot,_tabController) => Padding(
+  Widget buildBody(snapshot, _tabController) => Padding(
         padding: EdgeInsets.only(top: 70.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +123,6 @@ class _RestaurantHomeState extends State<RestaurantHome>
               child: Row(
                 children: [
                   Expanded(
-                    flex: 1,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -141,7 +141,6 @@ class _RestaurantHomeState extends State<RestaurantHome>
                     ),
                   ),
                   Expanded(
-                    flex: 1,
                     child: Row(
                       children: [
                         Icon(
@@ -206,15 +205,18 @@ class _RestaurantHomeState extends State<RestaurantHome>
             ),
             // create widgets for each tab bar here
             Expanded(
-              flex: 1,
               child: DefaultTabController(
                 length: 3,
                 child: TabBarView(
                   children: [
                     // first tab bar view widget
-                    RestaurantMenu(restaurantId: restaurantId,),
+                    RestaurantMenu(
+                      restaurantId: restaurantId,
+                    ),
                     // second tab bar view widget
-                    RestaurantInfo(restaurantData: snapshot,),
+                    RestaurantInfo(
+                      restaurantData: snapshot,
+                    ),
                     // third tab bar view widget
                     Reviews(),
                   ],
@@ -232,15 +234,18 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final DocumentSnapshot snapshot;
 
-  const CustomSliverAppBarDelegate(this.context, this.snapshot, {@required this.expandedHeight});
+  const CustomSliverAppBarDelegate(this.context, this.snapshot,
+      {@required this.expandedHeight});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     final size = 70;
     final top = expandedHeight - shrinkOffset - size / 2;
 
     return Stack(
-      clipBehavior: Clip.none, fit: StackFit.expand,
+      clipBehavior: Clip.none,
+      fit: StackFit.expand,
       children: [
         buildBackground(shrinkOffset),
         buildAppBar(shrinkOffset),

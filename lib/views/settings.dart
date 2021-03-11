@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'MyOrders.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -48,7 +49,14 @@ class _SettingsState extends State<Settings> {
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.navigate_next_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MyOrdersPage(),
+                    ),
+                  );
+                },
               ),
             ),
             Card(

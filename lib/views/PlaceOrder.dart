@@ -91,7 +91,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               Text(
                                 '11:20 PM  |',
                                 style: TextStyle(
-                                  fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -112,29 +111,30 @@ class _PlaceOrderState extends State<PlaceOrder> {
                               Text(
                                 '384.47 EGP |',
                                 style: TextStyle(
-                                  fontSize: 15.0,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.account_balance_wallet,
-                                color: Colors.amber,
-                              ),
-                              SizedBox(
-                                width: 5.0,
-                              ),
-                              Text(
-                                'Cash',
-                                style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 15.0,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ],
+                          Expanded(
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.account_balance_wallet,
+                                  color: Colors.amber,
+                                  size: 20,
+                                ),
+                                SizedBox(
+                                  width: 2.0,
+                                ),
+                                Text(
+                                  'Cash',
+                                  style: TextStyle(
+                                      color: Colors.grey,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
