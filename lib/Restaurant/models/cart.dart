@@ -7,12 +7,12 @@ class Cart extends ChangeNotifier{
 
   void addToCart(Dish dish){
     _dishes.add(dish);
-    _totalPrice += double.parse(dish.dishPrice);
+    _totalPrice += double.parse((double.parse(dish.dishPrice)*dish.dishQuantity).toString());
     notifyListeners();
   }
 
   void removeFromCart(Dish dish){
-    _totalPrice -= double.parse(dish.dishPrice);
+    _totalPrice -= double.parse((double.parse(dish.dishPrice)*dish.dishQuantity).toString());
     _dishes.remove(dish);
     notifyListeners();
   }

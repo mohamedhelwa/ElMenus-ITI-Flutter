@@ -2,6 +2,8 @@ import 'package:ElMenus_ITI/Restaurant/views/cart_page.dart';
 import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:ElMenus_ITI/Restaurant/models/dish.dart';
 import 'package:ElMenus_ITI/Restaurant/models/restaurant.dart';
+import 'package:ElMenus_ITI/Restaurant/views/dish_details.dart';
+import 'package:ElMenus_ITI/Restaurant/views/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +13,12 @@ import 'cart_page.dart';
 
 class RestaurantMenu extends StatefulWidget {
   String restaurantId;
-RestaurantMenu({this.restaurantId});
+  RestaurantMenu({this.restaurantId});
   @override
   _RestaurantMenuState createState() => _RestaurantMenuState();
 }
 
 class _RestaurantMenuState extends State<RestaurantMenu> {
-  final List<Dish> dishes = [
-    Dish(dishName: 'laptop ', dishPrice: '500.0'),
-    Dish(dishName: 'iphone x ', dishPrice: '400.0'),
-    Dish(dishName: 'keyboard ', dishPrice: '40.0'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     // Provider
@@ -31,42 +27,18 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
     return Consumer<Cart>(
       builder: (context, cart, child) {
         return Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            actions: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.card_travel,
-                        color: Colors.deepOrange,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => CartPage()),
-                        );
-                      },
-                    ),
-                    Text(
-                      cart.cartLength.toString(),
-                      style: TextStyle(color: Colors.deepOrange),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
           body: StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance.collection('Dishes').where('restaurantId',isEqualTo: widget.restaurantId).snapshots(),
+            stream: FirebaseFirestore.instance
+                .collection('Dishes')
+                .where('restaurantId', isEqualTo: widget.restaurantId)
+                .snapshots(),
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return Center(child: Text('Something Went wrong'));
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: Text('Loading....'));
+                return Loading();
               }
               return ListView.builder(
                 itemCount: snapshot.data.docs.length,
@@ -108,7 +80,8 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                                         child: Text(
                                           dish.data()['dishPrice'].toString(),
                                           style: TextStyle(
-                                              fontSize: 15, color: Colors.black),
+                                              fontSize: 15,
+                                              color: Colors.black),
                                         ),
                                       ),
                                       Expanded(
@@ -136,12 +109,78 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                       ),
                     ),
                     onTap: () {
-                      cart.addToCart(dishes[index]);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => DishDetails(
+                                    dishData: dish.data(),
+                                  )));
+                      print('dish tapped');
                     },
                   );
                 },
               );
             },
+          ),
+          bottomSheet: GestureDetector(
+            onTap: ()=>{
+              Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CartPage())),
+            },
+            child: Container(
+              height: 60.0,
+              decoration: new BoxDecoration(color: Colors.deepOrange),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white54,
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(width: 2, color: Colors.white),
+                      ),
+                      child: Text(
+                        cart.cartItems.length.toString(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(
+                        Icons.lock,
+                        color: Colors.white,
+                      ),
+                      SizedBox(
+                        width: 10.0,
+                      ),
+                      Text(
+                        'VIEW BASKET',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
+                      ),
+                      ],
+                    ),
+                    Text(
+                      cart.cartTotalPrice.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ),
         );
       },

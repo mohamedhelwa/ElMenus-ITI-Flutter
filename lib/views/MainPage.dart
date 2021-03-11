@@ -12,7 +12,7 @@ import 'package:ElMenus_ITI/DineOutPage/discovernew.dart';
 //import 'DeliveryPage.dart';
 //import 'ForTest/DragableScrollableSheet.dart';
 //import 'ForTest/HorizontalStepper.dart';
-import 'MyOrders.dart';
+import 'package:ElMenus_ITI/views/MyOrders.dart';
 import 'NoOrders.dart';
 import 'PlaceOrder.dart';
 import 'PreviousOrderCard.dart';
@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
 
     //PreviousOrderCard(),
     //ViewBasketBox(),
-    PlaceOrder(),
+    MyOrdersPage(),
     // NoOrdersPage(),
     // MyOrdersPage(),
 
