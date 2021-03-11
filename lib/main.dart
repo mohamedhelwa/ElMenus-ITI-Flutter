@@ -1,11 +1,11 @@
 import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:ElMenus_ITI/Restaurant/views/resturant_home.dart';
 import 'package:ElMenus_ITI/views/MainPage.dart';
-import 'package:ElMenus_ITI/views/checkOut.dart';
+import 'package:ElMenus_ITI/CheckOut/views/checkOut.dart';
 import 'package:ElMenus_ITI/views/login.dart';
-import 'package:ElMenus_ITI/views/giftMeals.dart';
+import 'package:ElMenus_ITI/GiftMeals/views/giftMeals.dart';
 import 'package:ElMenus_ITI/Reviews/views/reviews.dart';
-import 'package:ElMenus_ITI/views/settings.dart';
+import 'package:ElMenus_ITI/Settings/views/settings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
