@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/views/MyOrders.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ElMenus_ITI/HomePage/searchBar.dart';
@@ -7,16 +8,8 @@ import 'package:ElMenus_ITI/DineOutPage/discoverbymood.dart';
 import 'package:ElMenus_ITI/DineOutPage/discoverlocation.dart';
 import 'package:ElMenus_ITI/DineOutPage/discoverdish.dart';
 import 'package:ElMenus_ITI/DineOutPage/discovernew.dart';
-
-
-//import 'DeliveryPage.dart';
-//import 'ForTest/DragableScrollableSheet.dart';
-//import 'ForTest/HorizontalStepper.dart';
-import 'package:ElMenus_ITI/views/MyOrders.dart';
-import 'NoOrders.dart';
 import 'PlaceOrder.dart';
-import 'PreviousOrderCard.dart';
-import 'ViewBasketBox.dart';
+import 'user.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -41,27 +34,25 @@ class _MainPageState extends State<MainPage> {
       ],
     ))),
     Container(
-        child: SingleChildScrollView(
-            child: Column(
-      children: [
-        Searchbar(),
-        DiscoverMood(),
-        DiscoverLocation(),
-        DiscoverDish(),
-        DiscoverNew()
-      ],
-    ))),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Searchbar(),
+            DiscoverMood(),
+            DiscoverLocation(),
+            DiscoverDish(),
+            DiscoverNew()
+          ],
+        ),
+      ),
+    ),
 
     //PreviousOrderCard(),
     //ViewBasketBox(),
     MyOrdersPage(),
     // NoOrdersPage(),
     // MyOrdersPage(),
-
-    Text(
-      'Index 3: Me Page',
-      style: optionStyle,
-    ),
+    UserPage(),
   ];
 
   void _onItemTapped(int index) {

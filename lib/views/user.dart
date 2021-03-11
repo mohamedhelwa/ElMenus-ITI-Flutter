@@ -1,5 +1,5 @@
 import 'package:ElMenus_ITI/views/login.dart';
-import 'package:ElMenus_ITI/views/settings.dart';
+import 'package:ElMenus_ITI/Settings/views/settings.dart';
 import 'package:flutter/material.dart';
 
 class UserPage extends StatelessWidget {
