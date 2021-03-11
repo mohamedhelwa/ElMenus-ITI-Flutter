@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/CheckOut': (BuildContext context) => CheckOut(),
         '/Reviews': (BuildContext context) => Reviews(),
-        '/Settings': (BuildContext context) => Settings(),
+        '/Settings': (BuildContext context) => SettingsPage(),
         '/Login': (BuildContext context) => Login(),
         '/GiftMeals': (BuildContext context) => GiftMeal(),
         '/restaurantHome': (BuildContext context) => RestaurantHome(),

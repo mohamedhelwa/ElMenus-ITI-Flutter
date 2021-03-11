@@ -1,6 +1,6 @@
 //import 'package:ElMenus_ITI/services/auth.dart';
 import 'package:ElMenus_ITI/views/login.dart';
-//import 'package:ElMenus_ITI/views/settings.dart';
+// import 'package:ElMenus_ITI/views/settings.dart';
 import 'package:ElMenus_ITI/Settings/views/settings.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -22,10 +22,10 @@ class UserPage extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                 //Navigator.push(
-                 //context,
-                  //MaterialPageRoute(builder: (context) => Settings()),
-                // );
+                 Navigator.push(
+                 context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
               },
             )
           ],

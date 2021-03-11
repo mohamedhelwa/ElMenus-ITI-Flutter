@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/CheckOut/views/checkOut.dart';
 import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:ElMenus_ITI/views/PlaceOrder.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +137,7 @@ class _CartPageState extends State<CartPage> {
         onTap: () => {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => PlaceOrder()),
+            MaterialPageRoute(builder: (context) => CheckOut(dishesList: cart.cartItems,totalPrice: cart.cartTotalPrice.toString(),)),
           ),
         },
         child: Container(

@@ -10,7 +10,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'restaurant_info.dart';
 import 'restaurant_menu.dart';
-import 'restaurant_review.dart';
+import 'package:ElMenus_ITI/Reviews/views/reviews.dart';
 
 class RestaurantHome extends StatefulWidget {
   @override
@@ -86,21 +86,15 @@ class _RestaurantHomeState extends State<RestaurantHome>
             ),
             Row(
               children: [
-                RatingBar.builder(
-                  initialRating: 3,
-                  minRating: 1,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemSize: 20,
-                  itemCount: 5,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
-                  itemBuilder: (context, _) => Icon(
+                RatingBarIndicator(
+                  rating: 3.5,
+                  itemBuilder: (context, index) => Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
+                  itemCount: 5,
+                  itemSize: 20.0,
+                  direction: Axis.horizontal,
                 ),
                 SvgPicture.asset('assets/images/hygeine.svg')
               ],
@@ -212,11 +206,11 @@ class _RestaurantHomeState extends State<RestaurantHome>
               child: TabBarView(
                 children: [
                   // first tab bar view widget
-                  RestaurantMenu(restaurantId: restaurantId,),
+                  RestaurantMenu(restaurantId: restaurantId,restaurantData: snapshot.data(),),
                   // second tab bar view widget
                   RestaurantInfo(restaurantData: snapshot,),
                   // third tab bar view widget
-                  Reviews(),
+                  Reviews(restaurantId: restaurantId,),
                 ],
                 controller: _tabController,
               ),
