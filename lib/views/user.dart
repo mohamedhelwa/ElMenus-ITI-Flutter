@@ -1,6 +1,12 @@
+//import 'package:ElMenus_ITI/services/auth.dart';
 import 'package:ElMenus_ITI/views/login.dart';
+//import 'package:ElMenus_ITI/views/settings.dart';
 import 'package:ElMenus_ITI/Settings/views/settings.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UserPage extends StatelessWidget {
   @override
@@ -16,10 +22,10 @@ class UserPage extends StatelessWidget {
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => Settings()),
-                );
+                 //Navigator.push(
+                 //context,
+                  //MaterialPageRoute(builder: (context) => Settings()),
+                // );
               },
             )
           ],
@@ -43,27 +49,64 @@ class UserPage extends StatelessWidget {
                   backgroundImage: AssetImage('assets/images/user.jpg'),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 20.0, bottom: 10),
-                child: Text(
-                  "Shereen Saeed",
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-              Text(
-                "Shereen@gmail.com",
-                style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.blueGrey[200],
-                  fontWeight: FontWeight.bold,
-                ),
+
+              StreamBuilder(
+                stream: getSpecificUser(FirebaseAuth.instance.currentUser.uid),
+                builder: (context, snapShot) {
+                  if (!snapShot.hasData) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                          child: Text(
+                            "UnKnown",
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "Unknown",
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.blueGrey[200],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  } else {
+                    var document = snapShot.data;
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                          child: Text(
+                            document["name"],
+                            style: TextStyle(
+                              fontSize: 30.0,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          document["email"],
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.blueGrey[200],
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
               SizedBox(
-                height: 170,
+                height: 100,
               ),
               Container(
                 height: 55,
@@ -82,9 +125,26 @@ class UserPage extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+              RaisedButton(
+                onPressed: () async {
+                  FirebaseAuth auth = FirebaseAuth.instance;
+                  await auth.signOut();
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => Login()));
+                },
+                child: Text("Sign out"),
+              ),
             ],
           ),
         ));
+  }
+
+
+  Stream<DocumentSnapshot> getSpecificUser(String userId) {
+    FirebaseFirestore store = FirebaseFirestore.instance;
+    CollectionReference collRef = store.collection("users");
+    DocumentReference docRef = collRef.doc(userId);
+    return docRef.snapshots();
   }
 }
