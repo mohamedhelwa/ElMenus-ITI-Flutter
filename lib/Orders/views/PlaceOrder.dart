@@ -33,7 +33,6 @@ class _PlaceOrderState extends State<PlaceOrder> {
         maxHeight: MediaQuery.of(context).size.height - 100,
         panelBuilder: (scrollController) => buildSlidingPanel(
           scrollController: scrollController,
-          //panelController: panelController,
         ),
         body: Stack(
           //alignment: Alignment.center,
