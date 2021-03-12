@@ -4,13 +4,13 @@ class GiftMeal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.deepOrange,
-        title: Text(
-          'Gift Meals',
-          style: TextStyle(color: Colors.white),
-        ),
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.deepOrange,
+      //   title: Text(
+      //     'Gift Meals',
+      //     style: TextStyle(color: Colors.white),
+      //   ),
+      // ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
