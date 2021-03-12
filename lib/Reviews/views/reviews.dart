@@ -13,7 +13,6 @@ class Reviews extends StatefulWidget {
 
 class _ReviewsState extends State<Reviews> {
   bool submitBtnVisibility = false;
-
   String userName = "Mohamed";
   String reviewRate = "3";
   String reviewText = "Good";
@@ -146,7 +145,7 @@ class _ReviewsState extends State<Reviews> {
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                            title: const Text('Thank you'),
+                            title: const Text('Thank you 🙏'),
                             content: const Text(
                               'Your review is added!',
                             ),
@@ -169,38 +168,38 @@ class _ReviewsState extends State<Reviews> {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                '12 Reviews',
+                'All Reviews',
                 style: TextStyle(fontSize: 25),
               ),
             ),
             StreamBuilder<QuerySnapshot>(
-                stream: reviews
-                    .where('restaurantId', isEqualTo: widget.restaurantId)
-                    .snapshots(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(child: Text('Something Went wrong'));
-                  }
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Loading();
-                  }
-                  return Container(
-                    height: 200,
-                    child: ListView.builder(
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot review = snapshot.data.docs[index];
-                        return ReviewCard(
-                          userName: review.data()['userName'],
-                          reviewText: review.data()['reviewText'],
-                          ratingValue:
-                              double.parse(review.data()['reviewRate']),
-                        );
-                      },
-                    ),
-                  );
-                })
+              stream: reviews
+                  .where('restaurantId', isEqualTo: widget.restaurantId)
+                  .snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Center(child: Text('Something Went wrong'));
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Loading();
+                }
+                return Container(
+                  height: 200,
+                  child: ListView.builder(
+                    itemCount: snapshot.data.docs.length,
+                    itemBuilder: (context, index) {
+                      DocumentSnapshot review = snapshot.data.docs[index];
+                      return ReviewCard(
+                        userName: review.data()['userName'],
+                        reviewText: review.data()['reviewText'],
+                        ratingValue: double.parse(review.data()['reviewRate']),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
           ],
         ),
       ),

@@ -1,18 +1,95 @@
+import 'package:ElMenus_ITI/views/MyOrders.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CheckOut extends StatefulWidget {
   dynamic dishesList;
   String totalPrice;
-  CheckOut({this.dishesList,this.totalPrice});
+  CheckOut({this.dishesList, this.totalPrice});
   @override
   _CheckOutState createState() => _CheckOutState();
 }
 
 class _CheckOutState extends State<CheckOut> {
+  String userName;
+  String addressInfo;
+  String buildingNumber;
+  String floorNumber;
+  String apartmentNumber;
+  String mobileNumber;
+
+  // Map<dynamic, dynamic> items = {};
+  List<dynamic> items = new List<dynamic>();
+  Map<String, dynamic> order = {};
+
+  CollectionReference orders = FirebaseFirestore.instance.collection('Orders');
+
+  createOrder() {
+    final f = new DateFormat('dd-MM-yyyy hh:mm a');
+    String formattedDate = f.format(new DateTime.now());
+
+    order['orderAddress'] = {
+      'addressInfo': addressInfo.toString(),
+      'builldingNumber': buildingNumber.toString(),
+      'floorNumber': floorNumber.toString(),
+      'ApartNumber': apartmentNumber.toString(),
+    };
+    order['userName'] = userName.toString();
+    order['userPhone'] = mobileNumber.toString();
+    order['itemsQuantity'] = widget.dishesList.length;
+    order['orderDate'] = formattedDate;
+    order['orderStatus'] = 'active';
+    order['paymentMethod'] = 'Cash On Delivery';
+    order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
+    order['totalPrice'] = widget.totalPrice.toString();
+
+    for (int i = 0; i < widget.dishesList.length; i++) {
+      items.add({
+        'dishDescription': widget.dishesList[i].dishDescription.toString(),
+        'dishSize': widget.dishesList[i].dishSize.toString(),
+        'dishImage': widget.dishesList[i].dishImage.toString(),
+        'dishName': widget.dishesList[i].dishName.toString(),
+        'dishPrice': widget.dishesList[i].dishPrice,
+        'dishQuantity': widget.dishesList[i].dishQuantity,
+        'dishRate': widget.dishesList[i].dishRate.toString(),
+        'dishTotalPrice':
+            '${(int.parse(widget.dishesList[i].dishPrice) * widget.dishesList[i].dishQuantity)}',
+        'restaurantId': widget.dishesList[i].restaurantId.toString(),
+        'resturantLogo': widget.dishesList[i].resturantLogo.toString(),
+        'resturantName': widget.dishesList[i].resturantName.toString(),
+      });
+    }
+
+    order['items'] = items;
+
+    print(order.keys.toList());
+    print(order.values.toList());
+
+    //add new order to FireStore database
+    orders.add(order);
+
+    print('order saved to FireStore successfully');
+  }
+
+  List<Widget> getItems() {
+    List<Widget> items = [];
+    for (int i = 0; i < widget.dishesList.length; i++) {
+      items.add(ListTile(
+        leading: Text(
+          '${widget.dishesList[i].dishQuantity.toString()}  ${widget.dishesList[i].dishName.toString()}',
+        ),
+        trailing: Text(
+            '${(int.parse(widget.dishesList[i].dishPrice) * widget.dishesList[i].dishQuantity).toString()}'),
+      ));
+    }
+    return items;
+  }
+
   String _paymentMethod;
   @override
   Widget build(BuildContext context) {
-    print(widget.dishesList.length);
+    // print(widget.dishesList.length);
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -122,89 +199,115 @@ class _CheckOutState extends State<CheckOut> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Deliver to:',
-                        style: TextStyle(
-                          color: Colors.grey[800],
-                          fontSize: 16,
+                      TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          labelText: 'Name*',
                         ),
+                        onChanged: (String value) {
+                          setState(() {
+                            userName = value.toString();
+                          });
+                        },
                       ),
                       SizedBox(
-                        height: 15,
+                        height: 10,
                       ),
-                      Text(
-                        'Mohamed Abd El.Hamid',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
+                      TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          labelText: 'Address Info*',
                         ),
+                        onChanged: (String value) {
+                          setState(() {
+                            addressInfo = value.toString();
+                          });
+                        },
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.house_outlined,
-                              color: Colors.deepOrange,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                'District 2, 6th of October, Giza',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                      TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          labelText: 'Building number*',
                         ),
+                        onChanged: (String value) {
+                          setState(() {
+                            buildingNumber = value.toString();
+                          });
+                        },
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
-                      Container(
-                        child: Row(
-                          children: [
-                            Icon(Icons.location_on_outlined),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text(
-                                'Building 101, floor 2, apartment 4',
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
+                      TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          labelText: 'Floor number*',
                         ),
+                        onChanged: (String value) {
+                          setState(() {
+                            floorNumber = value.toString();
+                          });
+                        },
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
                       ),
-                      Row(
-                        children: [
-                          Icon(Icons.call_outlined),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Text(
-                              '01228802927',
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                        ],
+                      TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          labelText: 'Apartment number*',
+                        ),
+                        onChanged: (String value) {
+                          setState(() {
+                            apartmentNumber = value.toString();
+                          });
+                        },
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 10,
+                      ),
+                      TextFormField(
+                        textCapitalization: TextCapitalization.words,
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          filled: true,
+                          labelText: 'Mobile number*',
+                        ),
+                        onChanged: (String value) {
+                          setState(() {
+                            mobileNumber = value.toString();
+                          });
+                        },
                       ),
                       ListTile(
                         trailing: FlatButton(
                           child: Text(
-                            'CHANGE',
+                            'SUBMIT',
                             style: TextStyle(
                               color: Colors.deepOrange,
                               fontSize: 18,
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            FocusScopeNode currentFocus =
+                                FocusScope.of(context);
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -302,21 +405,8 @@ class _CheckOutState extends State<CheckOut> {
               ),
               Card(
                 child: ExpansionTile(
-                  title: Text('2 item(s)'),
-                  children: [
-                    ListTile(
-                      leading: Text(
-                        '1 BigMac',
-                      ),
-                      trailing: Text('49.50'),
-                    ),
-                    ListTile(
-                      leading: Text(
-                        '2 Big Tasty',
-                      ),
-                      trailing: Text('120.00'),
-                    ),
-                  ],
+                  title: Text('${widget.dishesList.length} item(s)'),
+                  children: getItems(),
                 ),
               ),
               SizedBox(
@@ -376,7 +466,7 @@ class _CheckOutState extends State<CheckOut> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            'Subtotal:  169.50',
+                            'Subtotal:  ${widget.totalPrice}0',
                             style: TextStyle(
                               color: Colors.grey[800],
                             ),
@@ -395,13 +485,13 @@ class _CheckOutState extends State<CheckOut> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Delivery fees:  15.50',
+                              'Delivery fees:  00.00',
                               style: TextStyle(
                                 color: Colors.grey[800],
                               ),
                             ),
                             Text(
-                              widget.totalPrice,
+                              '${widget.totalPrice}0',
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -451,7 +541,42 @@ class _CheckOutState extends State<CheckOut> {
                     ],
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  createOrder();
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: const Text(
+                        'Order Placed 🎉 🥳',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      content: const Text(
+                        'Your meal is being done for you ‍👨‍🍳 😋',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, 'Dismiss');
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyOrdersPage(),
+                              ),
+                            );
+                          },
+                          child: const Text('Track Order'),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -460,3 +585,193 @@ class _CheckOutState extends State<CheckOut> {
     );
   }
 }
+
+/*
+createOrder() {
+    final f = new DateFormat('dd-MM-yyyy hh:mm a');
+    String formattedDate = f.format(new DateTime.now());
+
+    order['orderAddress'] = {
+      'addressInfo': addressInfo.toString(),
+      'builldingNumber': buildingNumber.toString(),
+      'floorNumber': floorNumber.toString(),
+      'ApartNumber': apartmentNumber.toString(),
+    };
+    order['userName'] = userName.toString();
+    order['userPhone'] = mobileNumber.toString();
+    order['itemsQuantity'] = widget.dishesList.length;
+    order['orderDate'] = formattedDate;
+    order['orderStatus'] = 'active';
+    order['paymentMethod'] = 'Cash On Delivery';
+    order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
+    order['totalPrice'] = widget.totalPrice.toString();
+
+    for (int i = 0; i < widget.dishesList.length; i++) {
+      items[i] = {
+        'dishDescription': widget.dishesList[i].dishDescription.toString(),
+        'dishSize': widget.dishesList[i].dishSize.toString(),
+        'dishImage': widget.dishesList[i].dishImage.toString(),
+        'dishName': widget.dishesList[i].dishName.toString(),
+        'dishPrice': widget.dishesList[i].dishPrice,
+        'dishQuantity': widget.dishesList[i].dishQuantity,
+        'dishRate': widget.dishesList[i].dishRate.toString(),
+        'dishTotalPrice':
+            '${(int.parse(widget.dishesList[i].dishPrice) * widget.dishesList[i].dishQuantity).toString()}',
+        'restaurantId': widget.dishesList[i].restaurantId.toString(),
+        'resturantLogo': widget.dishesList[i].resturantLogo.toString(),
+        'resturantName': widget.dishesList[i].resturantName.toString(),
+      };
+    }
+
+    order['items'] = items;
+
+    print(order.keys.toList());
+    print(order.values.toList());
+
+    //add new order to FireStore database
+    orders.add(order);
+
+    print('order saved to FireStore successfully');
+  }
+ */
+
+// Text(
+//   'Deliver to:',
+//   style: TextStyle(
+//     color: Colors.grey[800],
+//     fontSize: 16,
+//   ),
+// ),
+// SizedBox(
+//   height: 15,
+// ),
+// Text(
+//   'Mohamed Abd El.Hamid',
+//   style: TextStyle(
+//     color: Colors.black,
+//     fontSize: 18,
+//     fontWeight: FontWeight.bold,
+//   ),
+// ),
+// SizedBox(
+//   height: 20,
+// ),
+// Container(
+//   child: Row(
+//     children: [
+//       Icon(
+//         Icons.house_outlined,
+//         color: Colors.deepOrange,
+//       ),
+//       Padding(
+//         padding: const EdgeInsets.only(left: 5),
+//         child: Text(
+//           'District 2, 6th of October, Giza',
+//           overflow: TextOverflow.ellipsis,
+//         ),
+//       ),
+//     ],
+//   ),
+// ),
+// SizedBox(
+//   height: 20,
+// ),
+// Container(
+//   child: Row(
+//     children: [
+//       Icon(Icons.location_on_outlined),
+//       Padding(
+//         padding: const EdgeInsets.only(left: 5),
+//         child: Text(
+//           'Building 101, floor 2, apartment 4',
+//           overflow: TextOverflow.ellipsis,
+//         ),
+//       ),
+//     ],
+//   ),
+// ),
+// SizedBox(
+//   height: 20,
+// ),
+// Row(
+//   children: [
+//     Icon(Icons.call_outlined),
+//     Padding(
+//       padding: const EdgeInsets.only(left: 5),
+//       child: Text(
+//         '01228802927',
+//         style: TextStyle(fontSize: 16),
+//       ),
+//     ),
+//   ],
+// ),
+// SizedBox(
+//   height: 20,
+// ),
+
+/*
+LAST
+ */
+
+/*
+
+String userName;
+  String addressInfo;
+  String buildingNumber;
+  String floorNumber;
+  String apartmentNumber;
+  String mobileNumber;
+
+  // Map<dynamic, dynamic> items = {};
+  List<dynamic> items = new List<dynamic>();
+  Map<String, dynamic> order = {};
+
+  CollectionReference orders = FirebaseFirestore.instance.collection('Orders');
+
+  createOrder() {
+    final f = new DateFormat('dd-MM-yyyy hh:mm a');
+    String formattedDate = f.format(new DateTime.now());
+
+    order['orderAddress'] = {
+      'addressInfo': addressInfo.toString(),
+      'builldingNumber': buildingNumber.toString(),
+      'floorNumber': floorNumber.toString(),
+      'ApartNumber': apartmentNumber.toString(),
+    };
+    order['userName'] = userName.toString();
+    order['userPhone'] = mobileNumber.toString();
+    order['itemsQuantity'] = widget.dishesList.length;
+    order['orderDate'] = formattedDate;
+    order['orderStatus'] = 'active';
+    order['paymentMethod'] = 'Cash On Delivery';
+    order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
+    order['totalPrice'] = widget.totalPrice.toString();
+
+    for (int i = 0; i < widget.dishesList.length; i++) {
+      items.add({
+        'dishDescription': widget.dishesList[i].dishDescription.toString(),
+        'dishSize': widget.dishesList[i].dishSize.toString(),
+        'dishImage': widget.dishesList[i].dishImage.toString(),
+        'dishName': widget.dishesList[i].dishName.toString(),
+        'dishPrice': widget.dishesList[i].dishPrice,
+        'dishQuantity': widget.dishesList[i].dishQuantity,
+        'dishRate': widget.dishesList[i].dishRate.toString(),
+        'dishTotalPrice':
+            '${(int.parse(widget.dishesList[i].dishPrice) * widget.dishesList[i].dishQuantity)}',
+        'restaurantId': widget.dishesList[i].restaurantId.toString(),
+        'resturantLogo': widget.dishesList[i].resturantLogo.toString(),
+        'resturantName': widget.dishesList[i].resturantName.toString(),
+      });
+    }
+
+    order['items'] = items;
+
+    print(order.keys.toList());
+    print(order.values.toList());
+
+    //add new order to FireStore database
+    orders.add(order);
+
+    print('order saved to FireStore successfully');
+  }
+ */
