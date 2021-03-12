@@ -1,3 +1,8 @@
+import 'package:ElMenus_ITI/About/views/About.dart';
+import 'package:ElMenus_ITI/AddressBook/views/address_book.dart';
+import 'package:ElMenus_ITI/ChangeEmail/views/change_email.dart';
+import 'package:ElMenus_ITI/ChangePassword/views/change_password.dart';
+import 'package:ElMenus_ITI/TermsPage/views/terms_of_service.dart';
 import 'package:flutter/material.dart';
 import '../../Orders/views/MyOrders.dart';
 
@@ -66,7 +71,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.navigate_next_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangePassword(),
+                    ),
+                  );
+                },
               ),
             ),
             Card(
@@ -76,7 +88,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.navigate_next_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ChangeEmail(),
+                    ),
+                  );
+                },
               ),
             ),
             Card(
@@ -86,7 +105,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.navigate_next_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddressBook(),
+                    ),
+                  );
+                },
               ),
             ),
             SizedBox(
@@ -178,11 +204,18 @@ class _SettingsPageState extends State<SettingsPage> {
             Card(
               child: ListTile(
                 leading: Text(
-                  'Help Center',
+                  'About Us',
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.navigate_next_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => About(),
+                    ),
+                  );
+                },
               ),
             ),
             Card(
@@ -192,7 +225,14 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: TextStyle(fontSize: 18),
                 ),
                 trailing: Icon(Icons.navigate_next_rounded),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Terms(),
+                    ),
+                  );
+                },
               ),
             ),
           ],
