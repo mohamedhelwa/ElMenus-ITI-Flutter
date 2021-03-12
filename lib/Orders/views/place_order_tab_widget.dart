@@ -1,11 +1,11 @@
+import 'package:ElMenus_ITI/views/MainPage.dart';
 import 'package:flutter/material.dart';
 
 class PlaceOrderTabWidget extends StatelessWidget {
-  const PlaceOrderTabWidget({
-    Key key,
-    @required this.scrollController,
-  }) : super(key: key);
+  String orderId;
   final ScrollController scrollController;
+  PlaceOrderTabWidget(
+      {@required this.scrollController, @required this.orderId});
 
   @override
   Widget build(BuildContext context) => ListView(
@@ -158,7 +158,13 @@ class PlaceOrderTabWidget extends StatelessWidget {
                       ),
                     ),
                     onPressed: () {
-                      print('Cancel Order Pressed');
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MainPage(),
+                          ),
+                          ModalRoute.withName("/MainPage"));
+                      //print('Cancel Order Pressed');
                     },
                   ),
                 ],

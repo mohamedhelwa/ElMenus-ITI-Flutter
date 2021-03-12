@@ -15,6 +15,8 @@ import '../../views/ViewBasketBox.dart';
 //import 'package:ElMenus_ITI/main.dart';
 
 class MyOrdersPage extends StatefulWidget {
+  String orderId;
+  MyOrdersPage({@required this.orderId});
   @override
   _MyOrdersPageState createState() => _MyOrdersPageState();
 }
@@ -70,6 +72,7 @@ class _MyOrdersPageState extends State<MyOrdersPage> {
                           orderDate: orderDate,
                           restaurantLogo: restaurantLogo,
                           restaurantName: restaurantName,
+                          orderId: widget.orderId,
                         ),
                       ],
                     );

@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PlaceOrder extends StatefulWidget {
+  String orderId;
+  PlaceOrder({@required this.orderId});
   @override
   _PlaceOrderState createState() => _PlaceOrderState();
 }
@@ -170,7 +172,10 @@ class _PlaceOrderState extends State<PlaceOrder> {
     //@required PanelController panelController,
     @required ScrollController scrollController,
   }) =>
-      PlaceOrderTabWidget(scrollController: scrollController);
+      PlaceOrderTabWidget(
+        scrollController: scrollController,
+        orderId: widget.orderId,
+      );
 }
 
 // ListView.builder(

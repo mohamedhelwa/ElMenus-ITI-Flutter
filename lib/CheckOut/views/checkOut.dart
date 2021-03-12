@@ -1,7 +1,11 @@
 import 'package:ElMenus_ITI/Orders/views/MyOrders.dart';
+import 'package:ElMenus_ITI/Orders/views/PlaceOrder.dart';
+import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class CheckOut extends StatefulWidget {
   dynamic dishesList;
@@ -12,12 +16,14 @@ class CheckOut extends StatefulWidget {
 }
 
 class _CheckOutState extends State<CheckOut> {
+  final userId = FirebaseAuth.instance.currentUser.uid;
   String userName;
   String addressInfo;
   String buildingNumber;
   String floorNumber;
   String apartmentNumber;
   String mobileNumber;
+  String orderId;
 
   // Map<dynamic, dynamic> items = {};
   List<dynamic> items = new List<dynamic>();
@@ -25,7 +31,7 @@ class _CheckOutState extends State<CheckOut> {
 
   CollectionReference orders = FirebaseFirestore.instance.collection('Orders');
 
-  createOrder() {
+  createOrder() async {
     final f = new DateFormat('dd-MM-yyyy hh:mm a');
     String formattedDate = f.format(new DateTime.now());
 
@@ -43,6 +49,7 @@ class _CheckOutState extends State<CheckOut> {
     order['paymentMethod'] = 'Cash On Delivery';
     order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
     order['totalPrice'] = widget.totalPrice.toString();
+    order['uid'] = userId.toString();
 
     for (int i = 0; i < widget.dishesList.length; i++) {
       items.add({
@@ -62,14 +69,19 @@ class _CheckOutState extends State<CheckOut> {
     }
 
     order['items'] = items;
-
+    //order['orderID'] = docRef.id;
     print(order.keys.toList());
     print(order.values.toList());
 
     //add new order to FireStore database
-    orders.add(order);
+    final docRef = await orders.add(order);
+
+    orderId = docRef.id.toString();
+    print('current Order Id' + orderId);
+    docRef.update({'orderID': orderId});
 
     print('order saved to FireStore successfully');
+    Provider.of<Cart>(context, listen: false).removeAll();
   }
 
   List<Widget> getItems() {
@@ -567,7 +579,9 @@ class _CheckOutState extends State<CheckOut> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyOrdersPage(),
+                                builder: (context) =>
+                                    PlaceOrder(orderId: orderId),
+                                //MyOrdersPage(orderId: orderId),
                               ),
                             );
                           },

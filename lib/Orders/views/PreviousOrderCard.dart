@@ -12,13 +12,15 @@ class PreviousOrderCard extends StatefulWidget {
   String totalPrice;
   int itemsQuantity;
   String orderDate;
+  String orderId;
   PreviousOrderCard(
       {@required this.userId,
       @required this.totalPrice,
       @required this.itemsQuantity,
       @required this.orderDate,
       @required this.restaurantLogo,
-      @required this.restaurantName});
+      @required this.restaurantName,
+      @required this.orderId});
   @override
   _PreviousOrderCardState createState() => _PreviousOrderCardState();
 }
@@ -99,84 +101,84 @@ class _PreviousOrderCardState extends State<PreviousOrderCard> {
               ),
             ],
           ),
-          // Padding(
-          //   padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 15.0),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //     children: <Widget>[
-          //       ButtonTheme(
-          //         height: 50.0,
-          //         minWidth: 150.0,
-          //         child: RaisedButton(
-          //           color: Colors.white70,
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(10.0),
-          //           ),
-          //           onPressed: () {
-          //             print('Share Clicked');
-          //           },
-          //           child: Row(
-          //             children: [
-          //               Icon(
-          //                 Icons.share,
-          //                 color: Colors.deepOrangeAccent,
-          //                 size: 20.0,
-          //               ),
-          //               SizedBox(
-          //                 width: 10.0,
-          //               ),
-          //               Text(
-          //                 'SHARE',
-          //                 style: TextStyle(
-          //                     color: Colors.deepOrangeAccent,
-          //                     fontWeight: FontWeight.bold,
-          //                     fontSize: 18.0),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //       ButtonTheme(
-          //         height: 50.0,
-          //         minWidth: 160.0,
-          //         child: RaisedButton(
-          //           shape: RoundedRectangleBorder(
-          //             borderRadius: BorderRadius.circular(10.0),
-          //           ),
-          //           color: Colors.deepOrange,
-          //           onPressed: () => {
-          //             print('Reorder pressed'),
-          //             print(widget.userId),
-          //             // Navigator.push(
-          //             //   context,
-          //             //   MaterialPageRoute(
-          //             //       builder: (context) => MyApp()),
-          //             // ),
-          //           },
-          //           child: Row(
-          //             children: [
-          //               Icon(
-          //                 Icons.replay_circle_filled,
-          //                 color: Colors.white,
-          //                 size: 25.0,
-          //               ),
-          //               SizedBox(
-          //                 width: 10.0,
-          //               ),
-          //               Text(
-          //                 'REORDER',
-          //                 style: TextStyle(
-          //                   color: Colors.white,
-          //                   fontSize: 18.0,
-          //                 ),
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 15.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                // ButtonTheme(
+                //   height: 50.0,
+                //   minWidth: 150.0,
+                //   child: RaisedButton(
+                //     color: Colors.white70,
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(10.0),
+                //     ),
+                //     onPressed: () {
+                //       print('Share Clicked');
+                //     },
+                //     child: Row(
+                //       children: [
+                //         Icon(
+                //           Icons.share,
+                //           color: Colors.deepOrangeAccent,
+                //           size: 20.0,
+                //         ),
+                //         SizedBox(
+                //           width: 10.0,
+                //         ),
+                //         Text(
+                //           'SHARE',
+                //           style: TextStyle(
+                //               color: Colors.deepOrangeAccent,
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 18.0),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                // ),
+                ButtonTheme(
+                  height: 50.0,
+                  minWidth: 160.0,
+                  child: RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    color: Colors.deepOrange,
+                    onPressed: () => {
+                      print('Reorder pressed'),
+                      print(widget.orderId),
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //       builder: (context) => MyApp()),
+                      // ),
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.replay_circle_filled,
+                          color: Colors.white,
+                          size: 25.0,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
+                        Text(
+                          'REORDER',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
