@@ -24,22 +24,20 @@ class _MainPageState extends State<MainPage> {
       TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
   final List<Widget> _widgetPages = <Widget>[
     Container(
-        child: SingleChildScrollView(
-      child: Column(
-      children: [
-        Searchbar(),
-        Padding(
-          padding: const EdgeInsets.only(top: 8.0),
-          child: Carosel(),
-        ),
-        Resturants(),
-      ],
-    ))),
-    Container(
       child: SingleChildScrollView(
-        child: GiftMeal()
+        child: Column(
+          children: [
+            Searchbar(),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Carosel(),
+            ),
+            Resturants(),
+          ],
+        ),
       ),
     ),
+    GiftMeal(),
 
     //PreviousOrderCard(),
     //ViewBasketBox(),
@@ -76,7 +74,7 @@ class _MainPageState extends State<MainPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.redeem),
-            label: 'Gift',
+            label: 'Gift Meals',
             // backgroundColor: Colors.blue
           ),
           BottomNavigationBarItem(

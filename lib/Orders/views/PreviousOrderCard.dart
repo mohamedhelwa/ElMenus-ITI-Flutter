@@ -70,7 +70,7 @@ class _PreviousOrderCardState extends State<PreviousOrderCard> {
                         width: 25.0,
                       ),
                       Text(
-                        widget.totalPrice + '.00 EGP',
+                        widget.totalPrice + ' EGP',
                         style: TextStyle(
                           color: Colors.black54,
                           fontWeight: FontWeight.bold,

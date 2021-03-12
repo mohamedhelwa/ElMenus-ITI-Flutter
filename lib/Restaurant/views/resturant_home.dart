@@ -13,52 +13,52 @@ import 'restaurant_menu.dart';
 import 'package:ElMenus_ITI/Reviews/views/reviews.dart';
 
 class RestaurantHome extends StatefulWidget {
+  String restaurantId;
+  RestaurantHome({this.restaurantId});
   @override
   _RestaurantHomeState createState() => _RestaurantHomeState();
 }
 
 class _RestaurantHomeState extends State<RestaurantHome>
     with TickerProviderStateMixin {
-    
-    String restaurantId = '68UmChUROnCRm6wriwhy';
-    String restaurantImage;
+  // String restaurantId = '68UmChUROnCRm6wriwhy';
+  String restaurantImage;
   // CollectionReference restaurant = FirebaseFirestore.instance.collection('Restaurants');
   // Stream rest = FirebaseFirestore.instance.collection('Restaurants').doc('4Hpczs92kSscD9Y2af7c').snapshots();
-  
+
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
       home: FutureBuilder(
         future: getData(),
-        builder: (BuildContext context,AsyncSnapshot<DocumentSnapshot> snapshot){
+        builder:
+            (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasError) {
-          return Text('Something went wrong');
-        }
+            return Text('Something went wrong');
+          }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Loading();
-        }
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Loading();
+          }
           return Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
-            child: CustomScrollView(
-              slivers: <Widget>[
-                SliverPersistentHeader(
-                  delegate:
-                      CustomSliverAppBarDelegate(context,snapshot.data, expandedHeight: 200,),
-                  pinned: true,
-                ),
-                SliverFillRemaining(
-                  child: buildBody(snapshot.data)
-                )
-              ],
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  SliverPersistentHeader(
+                    delegate: CustomSliverAppBarDelegate(
+                      context,
+                      snapshot.data,
+                      expandedHeight: 200,
+                    ),
+                    pinned: true,
+                  ),
+                  SliverFillRemaining(child: buildBody(snapshot.data))
+                ],
+              ),
             ),
-          ),
-        );
-        }
-        ,
-        
+          );
+        },
       ),
     );
   }
@@ -67,157 +67,162 @@ class _RestaurantHomeState extends State<RestaurantHome>
     await Firebase.initializeApp();
     return await FirebaseFirestore.instance
         .collection("Restaurants")
-        .doc(restaurantId)
+        .doc(widget.restaurantId)
         .get();
   }
 
   // Body
-  Widget buildBody(snapshot)  
-  {
-     TabController _tabController = new TabController(length: 3, vsync: this);
+  Widget buildBody(snapshot) {
+    TabController _tabController = new TabController(length: 3, vsync: this);
     return Padding(
-        padding: EdgeInsets.only(top: 70.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              snapshot.data()['restaurantName'],
-              style: TextStyle(fontSize: 30),
-            ),
-            Row(
-              children: [
-                RatingBarIndicator(
-                  rating: 3.5,
-                  itemBuilder: (context, index) => Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                  ),
-                  itemCount: 5,
-                  itemSize: 20.0,
-                  direction: Axis.horizontal,
+      padding: EdgeInsets.only(top: 70.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            snapshot.data()['restaurantName'],
+            style: TextStyle(fontSize: 30),
+          ),
+          Row(
+            children: [
+              RatingBarIndicator(
+                rating: 3.5,
+                itemBuilder: (context, index) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
                 ),
-                SvgPicture.asset('assets/images/hygeine.svg')
-              ],
-            ),
-            Text(
-              snapshot.data()['restaurantType'],
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Colors.grey),
-            ),
-            Row(
-              children: [
-                Icon(
-                  Icons.location_on,
-                  size: 20,
-                ),
-                Text(snapshot.data()['adress']),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 20, top: 10, bottom: 10),
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.delivery_dining,
-                          size: 30,
-                          color: Colors.grey[800],
-                        ),
-                        Text(
-                          '40 mins',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[800]),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          size: 15,
-                          color: Colors.green[800],
-                        ),
-                        Text(
-                          'order Online',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green[800]),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                itemCount: 5,
+                itemSize: 20.0,
+                direction: Axis.horizontal,
               ),
+              SvgPicture.asset('assets/images/hygeine.svg')
+            ],
+          ),
+          Text(
+            snapshot.data()['restaurantType'],
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 15, color: Colors.grey),
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.location_on,
+                size: 20,
+              ),
+              Text(snapshot.data()['adress']),
+            ],
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.delivery_dining,
+                        size: 30,
+                        color: Colors.grey[800],
+                      ),
+                      Text(
+                        '40 mins',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[800]),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.circle,
+                        size: 15,
+                        color: Colors.green[800],
+                      ),
+                      Text(
+                        'order Online',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.green[800]),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
+          ),
 
-            // the tab bar with two items
-            TabBar(
-              indicatorColor: Colors.transparent,
-              labelColor: Colors.black,
-              unselectedLabelColor: Colors.grey,
-              labelStyle: TextStyle(
-                fontSize: 16,
-              ),
-              unselectedLabelStyle: TextStyle(
-                fontSize: 16,
-              ),
-              indicator: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(color: Colors.deepOrange, width: 2.0)),
-                color: Colors.white,
-              ),
-              tabs: [
-                Tab(
-                  child: Text(
-                    'MENU',
-                    style: TextStyle(fontSize: 15),
-                  ),
+          // the tab bar with two items
+          TabBar(
+            indicatorColor: Colors.transparent,
+            labelColor: Colors.black,
+            unselectedLabelColor: Colors.grey,
+            labelStyle: TextStyle(
+              fontSize: 16,
+            ),
+            unselectedLabelStyle: TextStyle(
+              fontSize: 16,
+            ),
+            indicator: BoxDecoration(
+              border: Border(
+                  bottom: BorderSide(color: Colors.deepOrange, width: 2.0)),
+              color: Colors.white,
+            ),
+            tabs: [
+              Tab(
+                child: Text(
+                  'MENU',
+                  style: TextStyle(fontSize: 15),
                 ),
-                Tab(
-                  child: Text(
-                    'INFO',
-                    style: TextStyle(fontSize: 15),
-                  ),
+              ),
+              Tab(
+                child: Text(
+                  'INFO',
+                  style: TextStyle(fontSize: 15),
                 ),
-                Tab(
-                  child: Text(
-                    'REVIEW',
-                    style: TextStyle(fontSize: 15),
-                  ),
+              ),
+              Tab(
+                child: Text(
+                  'REVIEW',
+                  style: TextStyle(fontSize: 15),
+                ),
+              ),
+            ],
+            controller: _tabController,
+            indicatorSize: TabBarIndicatorSize.tab,
+          ),
+          // create widgets for each tab bar here
+          Expanded(
+            flex: 1,
+            child: TabBarView(
+              children: [
+                // first tab bar view widget
+                RestaurantMenu(
+                  restaurantId: widget.restaurantId,
+                  restaurantData: snapshot.data(),
+                ),
+                // second tab bar view widget
+                RestaurantInfo(
+                  restaurantData: snapshot,
+                ),
+                // third tab bar view widget
+                Reviews(
+                  restaurantId: widget.restaurantId,
                 ),
               ],
               controller: _tabController,
-              indicatorSize: TabBarIndicatorSize.tab,
             ),
-            // create widgets for each tab bar here
-            Expanded(
-              flex: 1,
-              child: TabBarView(
-                children: [
-                  // first tab bar view widget
-                  RestaurantMenu(restaurantId: restaurantId,restaurantData: snapshot.data(),),
-                  // second tab bar view widget
-                  RestaurantInfo(restaurantData: snapshot,),
-                  // third tab bar view widget
-                  Reviews(restaurantId: restaurantId,),
-                ],
-                controller: _tabController,
-              ),
-            ),
-          ],
-        ),
-      );}
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
@@ -225,15 +230,18 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
   final DocumentSnapshot snapshot;
 
-  const CustomSliverAppBarDelegate(this.context, this.snapshot, {@required this.expandedHeight});
+  const CustomSliverAppBarDelegate(this.context, this.snapshot,
+      {@required this.expandedHeight});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     final size = 70;
     final top = expandedHeight - shrinkOffset - size / 2;
 
     return Stack(
-      clipBehavior: Clip.none, fit: StackFit.expand,
+      clipBehavior: Clip.none,
+      fit: StackFit.expand,
       children: [
         buildBackground(shrinkOffset),
         buildAppBar(shrinkOffset),
