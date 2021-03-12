@@ -8,8 +8,10 @@ class Dish{
   String dishRate;
   String dishSize;
   String restaurantId;
+  String resturantLogo;
+  String resturantName;
   int dishQuantity;
 
   Dish({this.dishDescription, this.dishImage, this.dishName,
-   this.dishPrice, this.dishRate, this.dishSize, this.restaurantId, this.dishQuantity});
+   this.dishPrice, this.dishRate, this.dishSize, this.restaurantId,this.resturantLogo,this.resturantName, this.dishQuantity});
 }

@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/views/MainPage.dart';
 import 'package:ElMenus_ITI/views/signup.dart';
 import 'package:ElMenus_ITI/views/user.dart';
 import 'package:flutter/material.dart';
@@ -160,11 +161,11 @@ class _LoginState extends State<Login> {
                               ),
                               InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => SignUp()),
-                                    );
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SignUp()),
+                                        ModalRoute.withName("/SignUp"));
                                   },
                                   child: Text(
                                     " Sign Up",
@@ -189,24 +190,26 @@ class _LoginState extends State<Login> {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
       UserCredential crendial = await auth.signInWithEmailAndPassword(
-          email: _emailcontroller.text.trim(), password: _passwordcontroller.text);
-          print(_emailcontroller.text.trim());
+          email: _emailcontroller.text.trim(),
+          password: _passwordcontroller.text);
+      print(_emailcontroller.text.trim());
       if (crendial != null) {
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (context) => UserPage()));
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage()),
+            ModalRoute.withName("/MainPage"));
       }
-    } on FirebaseAuthException catch(e){
-      if(e.code == "invalid-email"){
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "invalid-email") {
         print("this email is invalid");
       }
-      if(e.code == "wrong-password"){
+      if (e.code == "wrong-password") {
         print("this password is wrong");
       }
-       if(e.code == "user-not-found"){
+      if (e.code == "user-not-found") {
         print("user not found");
       }
-    } 
-    catch (e) {
+    } catch (e) {
       print("false catch");
     }
   }

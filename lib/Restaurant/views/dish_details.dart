@@ -5,7 +5,9 @@ import 'package:provider/provider.dart';
 
 class DishDetails extends StatefulWidget {
   dynamic dishData;
-  DishDetails({this.dishData});
+  String restaurantLogo;
+  String restaurantName;
+  DishDetails({this.dishData,this.restaurantLogo,this.restaurantName});
   @override
   _DishDetailsState createState() => _DishDetailsState();
 }
@@ -30,7 +32,7 @@ class _DishDetailsState extends State<DishDetails> {
                 backgroundColor: Colors.deepOrange,
                 flexibleSpace: FlexibleSpaceBar(
                   title: Text(widget.dishData['dishName']),
-                  background: Image.asset(
+                  background: Image.network(
                     widget.dishData['dishImage'],
                     fit: BoxFit.cover,
                   ),
@@ -100,9 +102,13 @@ class _DishDetailsState extends State<DishDetails> {
                           dishPrice: widget.dishData['dishPrice'].toString(),
                           dishRate: widget.dishData['dishRate'].toString(),
                           dishSize: dishSize.toString(),
+                          restaurantId:widget.dishData['restaurantId'],
+                          resturantLogo: widget.restaurantLogo,
+                          resturantName: widget.restaurantName,
                           dishQuantity: dishQuantity
                           );
                         cart.addToCart(selectedDish);
+                        print(selectedDish);
                         print('added to cart');
                         Navigator.pop(context);
                       },

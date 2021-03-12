@@ -6,6 +6,7 @@ import 'package:ElMenus_ITI/views/login.dart';
 import 'package:ElMenus_ITI/GiftMeals/views/giftMeals.dart';
 import 'package:ElMenus_ITI/Reviews/views/reviews.dart';
 import 'package:ElMenus_ITI/Settings/views/settings.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -27,11 +28,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      initialRoute:FirebaseAuth.instance.currentUser == null ? '/Login' : '/mainPage',
       home: MyHome(),
       routes: <String, WidgetBuilder>{
         '/CheckOut': (BuildContext context) => CheckOut(),
         '/Reviews': (BuildContext context) => Reviews(),
-        '/Settings': (BuildContext context) => Settings(),
+        '/Settings': (BuildContext context) => SettingsPage(),
         '/Login': (BuildContext context) => Login(),
         '/GiftMeals': (BuildContext context) => GiftMeal(),
         '/restaurantHome': (BuildContext context) => RestaurantHome(),
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
 class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('El-Menus'),

@@ -7,13 +7,13 @@ class Reviews extends StatefulWidget {
 }
 
 class _ReviewsState extends State<Reviews> {
-  addReview() {
-    Map<String, dynamic> review = {'name': 'Ahmed'};
-    CollectionReference reviews =
-        FirebaseFirestore.instance.collection('Reviews');
-    reviews.add(review);
-    print('in add');
-  }
+  // addReview() {
+  //   Map<String, dynamic> review = {'name': 'Ahmed'};
+  //   CollectionReference reviews =
+  //       FirebaseFirestore.instance.collection('Reviews');
+  //   reviews.add(review);
+  //   print('in add');
+  // }
 
   @override
   Widget build(BuildContext context) {

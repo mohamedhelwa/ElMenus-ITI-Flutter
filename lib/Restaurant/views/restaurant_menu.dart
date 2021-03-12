@@ -13,7 +13,8 @@ import 'cart_page.dart';
 
 class RestaurantMenu extends StatefulWidget {
   String restaurantId;
-  RestaurantMenu({this.restaurantId});
+  dynamic restaurantData;
+  RestaurantMenu({this.restaurantId,this.restaurantData});
   @override
   _RestaurantMenuState createState() => _RestaurantMenuState();
 }
@@ -88,8 +89,6 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                                         flex: 2,
                                         child: Container(),
                                       ),
-                                      Expanded(
-                                          child: Icon(Icons.thumb_up_outlined))
                                     ],
                                   )
                                 ],
@@ -114,6 +113,8 @@ class _RestaurantMenuState extends State<RestaurantMenu> {
                           MaterialPageRoute(
                               builder: (context) => DishDetails(
                                     dishData: dish.data(),
+                                    restaurantLogo: widget.restaurantData['logo'],
+                                    restaurantName: widget.restaurantData['restaurantName'],
                                   )));
                       print('dish tapped');
                     },

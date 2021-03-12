@@ -1,4 +1,5 @@
 import 'package:ElMenus_ITI/models/user_model.dart';
+import 'package:ElMenus_ITI/views/MainPage.dart';
 import 'package:ElMenus_ITI/views/login.dart';
 import 'package:ElMenus_ITI/views/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -164,11 +165,11 @@ class SignUp extends StatelessWidget {
                               ),
                               InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Login()),
-                                    );
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Login()),
+                                        ModalRoute.withName("/Login"));
                                   },
                                   child: Text(
                                     " Sign In",
@@ -240,8 +241,10 @@ class SignUp extends StatelessWidget {
     DocumentReference docRef = collRef.doc(user.id);
     await docRef.set(data).whenComplete(() {
       print("true");
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) => UserPage()));
+      Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage()),
+            ModalRoute.withName("/MainPage"));
     }).catchError((onError) => print(onError.toString()));
   }
 }

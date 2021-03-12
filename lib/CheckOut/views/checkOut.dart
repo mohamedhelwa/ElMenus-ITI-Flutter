@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CheckOut extends StatefulWidget {
+  dynamic dishesList;
+  String totalPrice;
+  CheckOut({this.dishesList,this.totalPrice});
   @override
   _CheckOutState createState() => _CheckOutState();
 }
@@ -9,6 +12,7 @@ class _CheckOutState extends State<CheckOut> {
   String _paymentMethod;
   @override
   Widget build(BuildContext context) {
+    print(widget.dishesList.length);
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
@@ -46,7 +50,7 @@ class _CheckOutState extends State<CheckOut> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12.0),
                       child: Image(
-                        image: AssetImage('assets/images/mac.png'),
+                        image: NetworkImage(widget.dishesList[0].resturantLogo),
                         width: 90,
                         height: 90,
                       ),
@@ -65,7 +69,7 @@ class _CheckOutState extends State<CheckOut> {
                       Padding(
                         padding: const EdgeInsets.only(top: 5, bottom: 5),
                         child: Text(
-                          'McDonald\'s',
+                          widget.dishesList[0].resturantName,
                           style: TextStyle(
                             fontSize: 25,
                             color: Colors.black,
@@ -397,7 +401,7 @@ class _CheckOutState extends State<CheckOut> {
                               ),
                             ),
                             Text(
-                              '185.00',
+                              widget.totalPrice,
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
