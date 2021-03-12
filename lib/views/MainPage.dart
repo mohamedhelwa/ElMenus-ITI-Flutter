@@ -23,7 +23,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _widgetPages = <Widget>[
     Container(
         child: SingleChildScrollView(
-            child: Column(
+      child: Column(
       children: [
         Searchbar(),
         Padding(
