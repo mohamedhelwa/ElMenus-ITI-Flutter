@@ -1,4 +1,5 @@
 // import 'file:///E:/ITI_Frontend_cpf/Final_Project/3-%20Flutter/versions/V1.4/ElMenus-ITI-Flutter/lib/Orders/views/MyOrders.dart';
+import 'package:ElMenus_ITI/GiftMeals/views/giftMeals.dart';
 import 'package:ElMenus_ITI/Orders/views/MyOrders.dart';
 import 'package:flutter/material.dart';
 
@@ -36,15 +37,7 @@ class _MainPageState extends State<MainPage> {
     ))),
     Container(
       child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Searchbar(),
-            DiscoverMood(),
-            DiscoverLocation(),
-            DiscoverDish(),
-            DiscoverNew()
-          ],
-        ),
+        child: GiftMeal()
       ),
     ),
 
@@ -82,8 +75,8 @@ class _MainPageState extends State<MainPage> {
             // backgroundColor: Colors.blue
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.restaurant),
-            label: 'Dine out',
+            icon: Icon(Icons.redeem),
+            label: 'Gift',
             // backgroundColor: Colors.blue
           ),
           BottomNavigationBarItem(

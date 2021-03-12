@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/Restaurant/views/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 // import 'package:carousel_slider/carousel_slider.dart';
@@ -46,6 +47,9 @@ class _CaroselState extends State<Carosel> {
                 if (snapshot.hasError) {
                   return Center(child: Text('Something Went wrong'));
                 }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                return Loading();
+              }
                 return ListView.builder(
                   scrollDirection: Axis.horizontal,
                   itemCount: items.length,

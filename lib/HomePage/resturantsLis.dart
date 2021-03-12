@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/Restaurant/views/loading.dart';
 import 'package:ElMenus_ITI/Restaurant/views/resturant_home.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,6 +50,9 @@ class _ResturantsState extends State<Resturants> {
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
                 return Center(child: Text('Something Went wrong'));
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Loading();
               }
               return ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
@@ -172,7 +176,7 @@ class _ResturantsState extends State<Resturants> {
                                                     MainAxisAlignment.end,
                                                 children: [
                                                   SmoothStarRating(
-                                                    rating: rating,
+                                                    rating: resturant.data()['rate'],
                                                     isReadOnly: true,
                                                     size: 20,
                                                     filledIconData: Icons.star,
