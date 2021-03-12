@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../views/MyOrders.dart';
+import '../../Orders/views/MyOrders.dart';
 
 class SettingsPage extends StatefulWidget {
   @override

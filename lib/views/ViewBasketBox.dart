@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'PlaceOrder.dart';
+import '../Orders/views/PlaceOrder.dart';
 
 class ViewBasketBox extends StatefulWidget {
   @override

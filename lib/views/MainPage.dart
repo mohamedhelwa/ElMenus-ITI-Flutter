@@ -1,4 +1,5 @@
-import 'package:ElMenus_ITI/views/MyOrders.dart';
+// import 'file:///E:/ITI_Frontend_cpf/Final_Project/3-%20Flutter/versions/V1.4/ElMenus-ITI-Flutter/lib/Orders/views/MyOrders.dart';
+import 'package:ElMenus_ITI/Orders/views/MyOrders.dart';
 import 'package:flutter/material.dart';
 
 import 'package:ElMenus_ITI/HomePage/searchBar.dart';
@@ -8,7 +9,7 @@ import 'package:ElMenus_ITI/DineOutPage/discoverbymood.dart';
 import 'package:ElMenus_ITI/DineOutPage/discoverlocation.dart';
 import 'package:ElMenus_ITI/DineOutPage/discoverdish.dart';
 import 'package:ElMenus_ITI/DineOutPage/discovernew.dart';
-import 'PlaceOrder.dart';
+import '../Orders/views/PlaceOrder.dart';
 import 'user.dart';
 
 class MainPage extends StatefulWidget {
@@ -23,7 +24,7 @@ class _MainPageState extends State<MainPage> {
   final List<Widget> _widgetPages = <Widget>[
     Container(
         child: SingleChildScrollView(
-            child: Column(
+      child: Column(
       children: [
         Searchbar(),
         Padding(
@@ -50,6 +51,7 @@ class _MainPageState extends State<MainPage> {
     //PreviousOrderCard(),
     //ViewBasketBox(),
     MyOrdersPage(),
+    //PlaceOrder(),
     // NoOrdersPage(),
     // MyOrdersPage(),
     UserPage(),
