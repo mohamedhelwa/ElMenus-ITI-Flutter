@@ -2,6 +2,7 @@
 //import 'file:///E:/ITI_Frontend_cpf/Final_Project/3-%20Flutter/versions/V1.4/ElMenus-ITI-Flutter/lib/Orders/views/place_order_tab_widget.dart';
 import 'package:ElMenus_ITI/Orders/views/place_order_tab_widget.dart';
 import 'package:ElMenus_ITI/Restaurant/views/loading.dart';
+import 'package:ElMenus_ITI/views/MainPage.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -38,7 +39,12 @@ class _PlaceOrderState extends State<PlaceOrder> {
             Icons.arrow_back,
             color: Colors.black54,
           ),
-          onPressed: () => Navigator.pop(context, false),
+          onPressed: () {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => MainPage()),
+                ModalRoute.withName("/MainPage"));
+          },
           //onPressed: () => exit(0),
         ),
       ),

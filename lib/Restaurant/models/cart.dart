@@ -5,11 +5,22 @@ class Cart extends ChangeNotifier {
   List<Dish> _dishes = [];
   double _totalPrice = 0;
 
-  void addToCart(Dish dish) {
-    _dishes.add(dish);
-    _totalPrice += double.parse(
-        (double.parse(dish.dishPrice) * dish.dishQuantity).toString());
-    notifyListeners();
+  bool addToCart(Dish dish) {
+    if (_dishes.isEmpty) {
+      _dishes.add(dish);
+      _totalPrice += double.parse(
+          (double.parse(dish.dishPrice) * dish.dishQuantity).toString());
+      notifyListeners();
+      return true;
+    } else if (dish.restaurantId == _dishes[0].restaurantId) {
+      _dishes.add(dish);
+      _totalPrice += double.parse(
+          (double.parse(dish.dishPrice) * dish.dishQuantity).toString());
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   void removeFromCart(Dish dish) {

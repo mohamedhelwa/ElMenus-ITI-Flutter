@@ -36,7 +36,9 @@ class UserPage extends StatelessWidget {
           ),
           backgroundColor: Colors.white,
           body: SafeArea(
-            minimum: const EdgeInsets.only(top: 65, left: 20),
+            minimum: const EdgeInsets.only(
+              top: 65,
+            ),
             child: Center(
               child: Column(
                 children: <Widget>[
@@ -116,14 +118,16 @@ class UserPage extends StatelessWidget {
                     height: 100,
                   ),
                   ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.deepOrange,
+                    ),
                     onPressed: () async {
                       FirebaseAuth auth = FirebaseAuth.instance;
                       await auth.signOut();
 
                       Navigator.pushAndRemoveUntil(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => Login()),
+                          MaterialPageRoute(builder: (context) => Login()),
                           ModalRoute.withName("/Login"));
                     },
                     child: Text("Sign out"),

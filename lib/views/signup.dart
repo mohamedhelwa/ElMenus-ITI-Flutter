@@ -1,16 +1,45 @@
 import 'package:ElMenus_ITI/models/user_model.dart';
 import 'package:ElMenus_ITI/views/MainPage.dart';
 import 'package:ElMenus_ITI/views/login.dart';
-import 'package:ElMenus_ITI/views/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SignUp extends StatelessWidget {
   TextEditingController _emailcontroller = TextEditingController();
 
   TextEditingController _passwordcontroller = TextEditingController();
   TextEditingController _nameController = TextEditingController();
+
+  final _formKey = GlobalKey<FormState>();
+  String _validateEmail(String value) {
+    if (value.isEmpty) return 'Email is required.';
+
+    final RegExp emailExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!emailExp.hasMatch(value)) {
+      return 'Please enter a valid email.';
+    }
+    return null;
+  }
+
+  String _validateName(String value) {
+    if (value.isEmpty) return 'Name is required.';
+
+    final RegExp nameExp = RegExp(r'^[A-Za-z ]+$');
+    if (!nameExp.hasMatch(value)) {
+      return 'Please enter only alphabetical characters.';
+    }
+    return null;
+  }
+
+  String _validatePassword(String value) {
+    if (value.length < 6) return 'password must be more than 6 characters';
+    if (value.isEmpty) return 'this field is required.';
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +70,7 @@ class SignUp extends StatelessWidget {
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Text(
                       "Discover & Order the food you love.",
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white, fontSize: 34),
                     ),
                   ),
@@ -63,27 +93,30 @@ class SignUp extends StatelessWidget {
                         SizedBox(
                           height: 40,
                         ),
-                        Container(
-                          height: 300,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromRGBO(225, 95, 27, .3),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 10))
-                              ]),
+                        Form(
+                          key: _formKey,
                           child: Column(
                             children: <Widget>[
                               Container(
                                 padding: EdgeInsets.only(
                                     left: 10, right: 10, bottom: 10, top: 20),
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: _validateName,
                                   controller: _nameController,
+                                  cursorColor: Colors.deepOrange,
                                   decoration: InputDecoration(
-                                      prefixIcon:
-                                          Icon(Icons.supervised_user_circle),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(15.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Colors.deepOrange,
+                                        ),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.supervised_user_circle,
+                                        color: Colors.deepOrange,
+                                      ),
                                       hintText: " Enter Username",
                                       hintStyle: TextStyle(color: Colors.grey),
                                       border: OutlineInputBorder(
@@ -97,41 +130,81 @@ class SignUp extends StatelessWidget {
                               Container(
                                 padding: EdgeInsets.only(
                                     left: 10, right: 10, bottom: 10, top: 0),
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: _validateEmail,
                                   controller: _emailcontroller,
+                                  cursorColor: Colors.deepOrange,
                                   decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.mail),
-                                      hintText: " Enter Email",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                          const Radius.circular(15.0),
-                                        ),
-                                      ) //InputBorder.none
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        const Radius.circular(15.0),
                                       ),
+                                      borderSide: BorderSide(
+                                        color: Colors.deepOrange,
+                                      ),
+                                    ),
+
+                                    prefixIcon: Icon(
+                                      Icons.mail,
+                                      color: Colors.deepOrange,
+                                    ),
+                                    hintText: " Enter Email",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        const Radius.circular(15.0),
+                                      ),
+                                    ), //InputBorder.none
+                                  ),
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.only(
                                     left: 10, right: 10, top: 0, bottom: 30),
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: _validatePassword,
                                   controller: _passwordcontroller,
+                                  cursorColor: Colors.deepOrange,
                                   decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.lock),
-                                      hintText: "Enter Password",
-                                      hintStyle: TextStyle(color: Colors.grey),
-                                      border: OutlineInputBorder(
-                                        borderRadius: const BorderRadius.all(
-                                          const Radius.circular(15.0),
-                                        ),
-                                      )),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        const Radius.circular(15.0),
+                                      ),
+                                      borderSide: BorderSide(
+                                        color: Colors.deepOrange,
+                                      ),
+                                    ),
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                      color: Colors.deepOrange,
+                                    ),
+                                    hintText: "Enter Password",
+                                    hintStyle: TextStyle(color: Colors.grey),
+                                    border: OutlineInputBorder(
+                                      borderRadius: const BorderRadius.all(
+                                        const Radius.circular(15.0),
+                                      ),
+                                    ),
+                                  ),
                                   autofocus: false,
                                   obscureText: true,
                                 ),
                               ),
                               InkWell(
                                 onTap: () {
-                                  register(context);
+                                  if (_formKey.currentState.validate()) {
+                                    register(context);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: "Please Complete required fields",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.white,
+                                      textColor: Colors.deepOrange,
+                                      fontSize: 20.0,
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   height: 45,
@@ -155,28 +228,27 @@ class SignUp extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 43.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Already Have An Account ? ",
-                                style: TextStyle(color: Colors.grey),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Already Have An Account? ",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()),
+                                    ModalRoute.withName("/Login"));
+                              },
+                              child: Text(
+                                " Sign In",
+                                style: TextStyle(color: Color(0xffE5533A)),
                               ),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()),
-                                        ModalRoute.withName("/Login"));
-                                  },
-                                  child: Text(
-                                    " Sign In",
-                                    style: TextStyle(color: Color(0xffE5533A)),
-                                  )),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -242,9 +314,9 @@ class SignUp extends StatelessWidget {
     await docRef.set(data).whenComplete(() {
       print("true");
       Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-            ModalRoute.withName("/MainPage"));
+          context,
+          MaterialPageRoute(builder: (context) => MainPage()),
+          ModalRoute.withName("/MainPage"));
     }).catchError((onError) => print(onError.toString()));
   }
 }

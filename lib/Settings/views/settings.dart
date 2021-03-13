@@ -1,5 +1,6 @@
 import 'package:ElMenus_ITI/About/views/About.dart';
 import 'package:ElMenus_ITI/AddressBook/views/address_book.dart';
+import 'package:ElMenus_ITI/Arabic/views/arabic.dart';
 import 'package:ElMenus_ITI/ChangeEmail/views/change_email.dart';
 import 'package:ElMenus_ITI/ChangePassword/views/change_password.dart';
 import 'package:ElMenus_ITI/TermsPage/views/terms_of_service.dart';
@@ -148,7 +149,14 @@ class _SettingsPageState extends State<SettingsPage> {
                     Row(
                       children: [
                         RaisedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Arabic(),
+                              ),
+                            );
+                          },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(vertical: 15),
                             child: Text(
