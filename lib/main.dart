@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/Orders/views/PlaceOrder.dart';
 import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:ElMenus_ITI/Restaurant/views/resturant_home.dart';
 import 'package:ElMenus_ITI/views/MainPage.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute:FirebaseAuth.instance.currentUser == null ? '/Login' : '/mainPage',
+      initialRoute:
+          FirebaseAuth.instance.currentUser == null ? '/Login' : '/mainPage',
       home: MyHome(),
       routes: <String, WidgetBuilder>{
         '/CheckOut': (BuildContext context) => CheckOut(),
@@ -46,60 +48,8 @@ class MyApp extends StatelessWidget {
 class MyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('El-Menus'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/CheckOut");
-              },
-              child: Text('Check Out'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/Reviews");
-              },
-              child: Text('Reviews'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/Settings");
-              },
-              child: Text('Settings'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/Login");
-              },
-              child: Text('Login'),
-            ),
-            RaisedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/GiftMeals");
-              },
-              child: Text('Gift Meals'),
-            ),
-            RaisedButton(
-              child: Text('Open route'),
-              onPressed: () {
-                Navigator.pushNamed(context, "/restaurantHome");
-              },
-            ),
-            RaisedButton(
-              child: Text('Main Page'),
-              onPressed: () {
-                Navigator.pushNamed(context, "/mainPage");
-              },
-            ),
-          ],
-        ),
-      ),
+      body: FirebaseAuth.instance.currentUser == null ? Login() : MainPage(),
     );
   }
 }

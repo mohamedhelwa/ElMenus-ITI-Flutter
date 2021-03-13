@@ -3,6 +3,7 @@ import 'package:ElMenus_ITI/views/signup.dart';
 import 'package:ElMenus_ITI/views/user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -10,9 +11,29 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final _formKey = GlobalKey<FormState>();
+
   TextEditingController _emailcontroller = TextEditingController();
 
   TextEditingController _passwordcontroller = TextEditingController();
+
+  String _validateEmail(String value) {
+    if (value.isEmpty) return 'Name is required.';
+
+    final RegExp emailExp = RegExp(
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+    if (!emailExp.hasMatch(value)) {
+      return 'Please enter a valid email.';
+    }
+    return null;
+  }
+
+  String _validatePassword(String value) {
+    if (value.length < 6) return 'password must be more than 6 characters';
+    if (value.isEmpty) return 'this field is required.';
+
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +64,7 @@ class _LoginState extends State<Login> {
                     padding: const EdgeInsets.only(left: 20.0),
                     child: Text(
                       "Discover & Order the food you love.",
+                      textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.white, fontSize: 34),
                     ),
                   ),
@@ -65,26 +87,30 @@ class _LoginState extends State<Login> {
                         SizedBox(
                           height: 40,
                         ),
-                        Container(
-                          height: 250,
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Color.fromRGBO(225, 95, 27, .3),
-                                    blurRadius: 20,
-                                    offset: Offset(0, 10))
-                              ]),
+                        Form(
+                          key: _formKey,
                           child: Column(
                             children: <Widget>[
                               Container(
                                 padding: EdgeInsets.only(
                                     left: 10, right: 10, bottom: 10, top: 30),
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: _validateEmail,
                                   controller: _emailcontroller,
+                                  cursorColor: Colors.deepOrange,
                                   decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.mail),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(15.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Colors.deepOrange,
+                                        ),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.mail,
+                                        color: Colors.deepOrange,
+                                      ),
                                       hintText: " Enter Email",
                                       hintStyle: TextStyle(color: Colors.grey),
                                       border: OutlineInputBorder(
@@ -98,10 +124,23 @@ class _LoginState extends State<Login> {
                               Container(
                                 padding: EdgeInsets.only(
                                     left: 10, right: 10, top: 0, bottom: 30),
-                                child: TextField(
+                                child: TextFormField(
+                                  validator: _validatePassword,
                                   controller: _passwordcontroller,
+                                  cursorColor: Colors.deepOrange,
                                   decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.lock),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          const Radius.circular(15.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                          color: Colors.deepOrange,
+                                        ),
+                                      ),
+                                      prefixIcon: Icon(
+                                        Icons.lock,
+                                        color: Colors.deepOrange,
+                                      ),
                                       hintText: "Enter Password",
                                       hintStyle: TextStyle(color: Colors.grey),
                                       border: OutlineInputBorder(
@@ -115,7 +154,19 @@ class _LoginState extends State<Login> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  login(context);
+                                  if (_formKey.currentState.validate()) {
+                                    login(context);
+                                  } else {
+                                    Fluttertoast.showToast(
+                                      msg: "Please Complete required fields",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor: Colors.white,
+                                      textColor: Colors.deepOrange,
+                                      fontSize: 20.0,
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   height: 45,
@@ -136,43 +187,29 @@ class _LoginState extends State<Login> {
                             ],
                           ),
                         ),
-                        /* SizedBox(height: 40,),
-                                                          Container(
-                                                            height: 50,
-                                                            margin: EdgeInsets.symmetric(horizontal: 50),
-                                                            decoration: BoxDecoration(
-                                                              borderRadius: BorderRadius.circular(50),
-                                                              color: Color(0xffE5533A)
-                                                            ),
-                                                            child: Center(
-                                                              child: Text("Login", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                                                            ),
-                                                          ),*/
                         SizedBox(
                           height: 10,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 43.0),
-                          child: Row(
-                            children: [
-                              Text(
-                                "Don't Have An Account ? ",
-                                style: TextStyle(color: Colors.grey),
-                              ),
-                              InkWell(
-                                  onTap: () {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SignUp()),
-                                        ModalRoute.withName("/SignUp"));
-                                  },
-                                  child: Text(
-                                    " Sign Up",
-                                    style: TextStyle(color: Color(0xffE5533A)),
-                                  )),
-                            ],
-                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Don't Have An Account? ",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => SignUp()),
+                                      ModalRoute.withName("/SignUp"));
+                                },
+                                child: Text(
+                                  " Sign Up",
+                                  style: TextStyle(color: Color(0xffE5533A)),
+                                )),
+                          ],
                         ),
                       ],
                     ),
@@ -200,15 +237,15 @@ class _LoginState extends State<Login> {
             ModalRoute.withName("/MainPage"));
       }
     } on FirebaseAuthException catch (e) {
-      if (e.code == "invalid-email") {
-        print("this email is invalid");
-      }
-      if (e.code == "wrong-password") {
-        print("this password is wrong");
-      }
-      if (e.code == "user-not-found") {
-        print("user not found");
-      }
+      Fluttertoast.showToast(
+        msg: "Incorrect Email or Password",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.white,
+        textColor: Colors.deepOrange,
+        fontSize: 20.0,
+      );
     } catch (e) {
       print("false catch");
     }

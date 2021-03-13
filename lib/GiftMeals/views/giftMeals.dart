@@ -1,3 +1,4 @@
+import 'package:ElMenus_ITI/SendGiftMeal/views/send_gift_meal.dart';
 import 'package:flutter/material.dart';
 
 class GiftMeal extends StatelessWidget {
@@ -38,7 +39,14 @@ class GiftMeal extends StatelessWidget {
                 height: 30,
               ),
               RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SendGiftMeal(),
+                    ),
+                  );
+                },
                 child: Text(
                   'Send Gifts to your teams',
                   style: TextStyle(color: Colors.white),
@@ -46,7 +54,14 @@ class GiftMeal extends StatelessWidget {
                 color: Colors.deepOrange,
               ),
               RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SendGiftMeal(),
+                    ),
+                  );
+                },
                 child: Text(
                   'Send Gifts to your friends',
                   style: TextStyle(color: Colors.deepOrange),

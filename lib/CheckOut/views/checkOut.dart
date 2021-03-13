@@ -1,7 +1,12 @@
-import 'package:ElMenus_ITI/Orders/views/MyOrders.dart';
+import 'package:ElMenus_ITI/Orders/views/PlaceOrder.dart';
+import 'package:ElMenus_ITI/Restaurant/models/cart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CheckOut extends StatefulWidget {
   dynamic dishesList;
@@ -12,12 +17,15 @@ class CheckOut extends StatefulWidget {
 }
 
 class _CheckOutState extends State<CheckOut> {
+  final _formKey = GlobalKey<FormState>();
+  final userId = FirebaseAuth.instance.currentUser.uid;
   String userName;
   String addressInfo;
   String buildingNumber;
   String floorNumber;
   String apartmentNumber;
   String mobileNumber;
+  String orderId;
 
   // Map<dynamic, dynamic> items = {};
   List<dynamic> items = new List<dynamic>();
@@ -25,7 +33,7 @@ class _CheckOutState extends State<CheckOut> {
 
   CollectionReference orders = FirebaseFirestore.instance.collection('Orders');
 
-  createOrder() {
+  createOrder() async {
     final f = new DateFormat('dd-MM-yyyy hh:mm a');
     String formattedDate = f.format(new DateTime.now());
 
@@ -43,6 +51,7 @@ class _CheckOutState extends State<CheckOut> {
     order['paymentMethod'] = 'Cash On Delivery';
     order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
     order['totalPrice'] = widget.totalPrice.toString();
+    order['uid'] = userId.toString();
 
     for (int i = 0; i < widget.dishesList.length; i++) {
       items.add({
@@ -62,14 +71,35 @@ class _CheckOutState extends State<CheckOut> {
     }
 
     order['items'] = items;
-
+    //order['orderID'] = docRef.id;
     print(order.keys.toList());
     print(order.values.toList());
 
     //add new order to FireStore database
-    orders.add(order);
+    final docRef = await orders.add(order);
+
+    orderId = docRef.id.toString();
+    print('current Order Id' + orderId);
+    docRef.update({'orderID': orderId});
 
     print('order saved to FireStore successfully');
+    Provider.of<Cart>(context, listen: false).removeAll();
+  }
+
+  String _validateName(String value) {
+    if (value.isEmpty) return 'Name is required.';
+
+    final RegExp nameExp = RegExp(r'^[A-Za-z ]+$');
+    if (!nameExp.hasMatch(value)) {
+      return 'Please enter only alphabetical characters.';
+    }
+    return null;
+  }
+
+  String _validateAddress(String value) {
+    if (value.isEmpty) return 'this field is required.';
+
+    return null;
   }
 
   List<Widget> getItems() {
@@ -102,18 +132,6 @@ class _CheckOutState extends State<CheckOut> {
           'Checkout',
           style: TextStyle(color: Colors.black),
         ),
-        actions: [
-          FlatButton(
-            onPressed: () {},
-            child: Text(
-              'SUPPORT',
-              style: TextStyle(
-                color: Colors.deepOrange,
-                fontSize: 20,
-              ),
-            ),
-          ),
-        ],
       ),
       body: SafeArea(
         child: Padding(
@@ -196,121 +214,169 @@ class _CheckOutState extends State<CheckOut> {
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextFormField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          labelText: 'Name*',
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            userName = value.toString();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          labelText: 'Address Info*',
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            addressInfo = value.toString();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          labelText: 'Building number*',
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            buildingNumber = value.toString();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          labelText: 'Floor number*',
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            floorNumber = value.toString();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          labelText: 'Apartment number*',
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            apartmentNumber = value.toString();
-                          });
-                        },
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      TextFormField(
-                        textCapitalization: TextCapitalization.words,
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          filled: true,
-                          labelText: 'Mobile number*',
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            mobileNumber = value.toString();
-                          });
-                        },
-                      ),
-                      ListTile(
-                        trailing: FlatButton(
-                          child: Text(
-                            'SUBMIT',
-                            style: TextStyle(
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          validator: _validateName,
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            labelText: 'Name*',
+                            labelStyle: TextStyle(
                               color: Colors.deepOrange,
-                              fontSize: 18,
                             ),
                           ),
-                          onPressed: () {
-                            FocusScopeNode currentFocus =
-                                FocusScope.of(context);
-                            if (!currentFocus.hasPrimaryFocus) {
-                              currentFocus.unfocus();
-                            }
+                          onChanged: (String value) {
+                            setState(() {
+                              userName = value.toString();
+                            });
                           },
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          validator: _validateAddress,
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            labelText: 'Address Info*',
+                            labelStyle: TextStyle(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          onChanged: (String value) {
+                            setState(() {
+                              addressInfo = value.toString();
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          validator: _validateAddress,
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            labelText: 'Building number*',
+                            labelStyle: TextStyle(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          onChanged: (String value) {
+                            setState(() {
+                              buildingNumber = value.toString();
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          validator: _validateAddress,
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            labelText: 'Floor number*',
+                            labelStyle: TextStyle(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          onChanged: (String value) {
+                            setState(() {
+                              floorNumber = value.toString();
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          validator: _validateAddress,
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            labelText: 'Apartment number*',
+                            labelStyle: TextStyle(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          onChanged: (String value) {
+                            setState(() {
+                              apartmentNumber = value.toString();
+                            });
+                          },
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        TextFormField(
+                          validator: _validateAddress,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          textCapitalization: TextCapitalization.words,
+                          cursorColor: Colors.deepOrange,
+                          decoration: const InputDecoration(
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.deepOrange,
+                              ),
+                            ),
+                            border: OutlineInputBorder(),
+                            filled: true,
+                            labelText: 'Mobile number*',
+                            labelStyle: TextStyle(
+                              color: Colors.deepOrange,
+                            ),
+                          ),
+                          onChanged: (String value) {
+                            setState(() {
+                              mobileNumber = value.toString();
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -405,7 +471,12 @@ class _CheckOutState extends State<CheckOut> {
               ),
               Card(
                 child: ExpansionTile(
-                  title: Text('${widget.dishesList.length} item(s)'),
+                  title: Text(
+                    '${widget.dishesList.length} item(s)',
+                    style: TextStyle(
+                      color: Colors.deepOrange,
+                    ),
+                  ),
                   children: getItems(),
                 ),
               ),
@@ -542,40 +613,62 @@ class _CheckOutState extends State<CheckOut> {
                   ),
                 ),
                 onPressed: () {
-                  createOrder();
-                  showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                      title: const Text(
-                        'Order Placed 🎉 🥳',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  if (_formKey.currentState.validate()) {
+                    createOrder();
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text(
+                          'Order Placed 🎉 🥳',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
+                        content: const Text(
+                          'Your meal is being done for you ‍👨‍🍳 😋',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, 'Dismiss');
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      PlaceOrder(orderId: orderId),
+                                ),
+                                ModalRoute.withName("/PlaceOrder"),
+                              );
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) =>
+                              //         PlaceOrder(orderId: orderId),
+                              //     //MyOrdersPage(orderId: orderId),
+                              //   ),
+                              // );
+                            },
+                            child: const Text('Track Order'),
+                          ),
+                        ],
                       ),
-                      content: const Text(
-                        'Your meal is being done for you ‍👨‍🍳 😋',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                      actions: <Widget>[
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context, 'Dismiss');
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => MyOrdersPage(),
-                              ),
-                            );
-                          },
-                          child: const Text('Track Order'),
-                        ),
-                      ],
-                    ),
-                  );
+                    );
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: "Please Complete required fields",
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.white,
+                      textColor: Colors.deepOrange,
+                      fontSize: 20.0,
+                    );
+                  }
                 },
               ),
             ],

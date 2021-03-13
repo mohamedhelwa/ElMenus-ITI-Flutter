@@ -31,7 +31,7 @@ class _ResturantsState extends State<Resturants> {
             child: Row(
               children: [
                 Text(
-                  'Resturants',
+                  'Restaurants',
                   textAlign: TextAlign.left,
                   textScaleFactor: 1.5,
                   style: TextStyle(
@@ -85,10 +85,13 @@ class _ResturantsState extends State<Resturants> {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                RestaurantHome()));
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => RestaurantHome(
+                                          restaurantId: resturant.id,
+                                        ),
+                                      ),
+                                    );
                                   },
                                   child: Card(
                                     child: Container(
@@ -100,26 +103,33 @@ class _ResturantsState extends State<Resturants> {
                                             viewportFraction: 1.0,
                                             enlargeCenterPage: false,
                                           ),
-                                          items:  resturant.data()['restaurantFeaturedPhotos']
-                                              .map<Widget>((item) => Stack(
-                                                    children: [
-                                                      Container(
-                                                          child: Image(
-                                                              image:
-                                                                  NetworkImage(
-                                                                      item),
-                                                              fit: BoxFit.cover,
-                                                              width:
-                                                                  MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width)),
-                                                      Container(
-                                                        color: Color.fromRGBO(
-                                                            0, 0, 0, 0.2),
+                                          items: resturant
+                                              .data()[
+                                                  'restaurantFeaturedPhotos']
+                                              .map<Widget>(
+                                                (item) => Stack(
+                                                  children: [
+                                                    Container(
+                                                        child: Image(
+                                                            image: NetworkImage(
+                                                                item),
+                                                            fit: BoxFit.cover,
+                                                            width:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width)),
+                                                    Container(
+                                                      color: Color.fromRGBO(
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0.2,
                                                       ),
-                                                    ],
-                                                  ))
+                                                    ),
+                                                  ],
+                                                ),
+                                              )
                                               .toList(),
                                         ),
                                         Row(
@@ -176,7 +186,8 @@ class _ResturantsState extends State<Resturants> {
                                                     MainAxisAlignment.end,
                                                 children: [
                                                   SmoothStarRating(
-                                                    rating: resturant.data()['rate'],
+                                                    rating: resturant
+                                                        .data()['rate'],
                                                     isReadOnly: true,
                                                     size: 20,
                                                     filledIconData: Icons.star,
