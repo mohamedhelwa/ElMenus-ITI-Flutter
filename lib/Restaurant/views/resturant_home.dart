@@ -231,6 +231,7 @@ class _RestaurantHomeState extends State<RestaurantHome>
                 // third tab bar view widget
                 Reviews(
                   restaurantId: widget.restaurantId,
+                  restaurantName: snapshot.data()['restaurantName'],
                 ),
               ],
               controller: _tabController,
@@ -320,42 +321,25 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   height: 70,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 75, bottom: 20),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 3, color: Colors.white),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.people,
-                      color: Colors.deepOrange,
-                      size: 40,
-                    ),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, bottom: 20),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 3, color: Colors.white),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.call,
-                      color: Colors.deepOrange,
-                      size: 40,
-                    ),
-                  ),
-                ),
-              ),
+              // SizedBox(width: 200,),
+              // Padding(
+              //   padding: const EdgeInsets.only(bottom: 20),
+              //   child: Container(
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       border: Border.all(width: 3, color: Colors.white),
+              //       borderRadius: BorderRadius.circular(50),
+              //     ),
+              //     child: Padding(
+              //       padding: const EdgeInsets.all(8.0),
+              //       child: Icon(
+              //         Icons.call,
+              //         color: Colors.deepOrange,
+              //         size: 40,
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),

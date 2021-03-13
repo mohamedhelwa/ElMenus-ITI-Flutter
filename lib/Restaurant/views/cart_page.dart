@@ -231,7 +231,7 @@ class _CartPageState extends State<CartPage> {
                         ),
                       ),
                     )
-                  : Center(child: Text('No Items in Cart'))),
+                  : Center(child: Text('No Items in Basket'))),
         ),
       );
     });

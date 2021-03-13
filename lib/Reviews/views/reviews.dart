@@ -7,7 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class Reviews extends StatefulWidget {
   String restaurantId;
-  Reviews({this.restaurantId});
+  String restaurantName;
+  Reviews({this.restaurantId,this.restaurantName});
   @override
   _ReviewsState createState() => _ReviewsState();
 }
@@ -20,16 +21,35 @@ class _ReviewsState extends State<Reviews> {
 
   CollectionReference reviews =
       FirebaseFirestore.instance.collection('Reviews');
-  final userId = FirebaseAuth.instance.currentUser.uid;
-  addReview() {
+    final String userId = FirebaseAuth.instance.currentUser.uid.toString();
+
+
+var document = FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid);
+
+// get user name first and and review
+Future<String> getUserName() async{
+  String name;
+  await document
+    .get()
+    .then((DocumentSnapshot documentSnapshot) {
+      if (documentSnapshot.exists) {
+      userName = documentSnapshot.data()['name'];
+      addReview();
+      }
+    });
+}
+
+ addReview() {
     Map<String, dynamic> review = {
       'userName': userName,
       'reviewRate': reviewRate,
       'reviewText': reviewText,
       'restaurantId': widget.restaurantId,
       'userId': userId.toString(),
+      'restaurantName': widget.restaurantName
     };
     reviews.add(review);
+
     print('New review added successfully');
   }
 
@@ -143,7 +163,7 @@ class _ReviewsState extends State<Reviews> {
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
-                        addReview();
+                        getUserName();
                         showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
