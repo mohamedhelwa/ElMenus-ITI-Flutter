@@ -683,7 +683,6 @@ class _CheckOutState extends State<CheckOut> {
 createOrder() {
     final f = new DateFormat('dd-MM-yyyy hh:mm a');
     String formattedDate = f.format(new DateTime.now());
-
     order['orderAddress'] = {
       'addressInfo': addressInfo.toString(),
       'builldingNumber': buildingNumber.toString(),
@@ -698,7 +697,6 @@ createOrder() {
     order['paymentMethod'] = 'Cash On Delivery';
     order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
     order['totalPrice'] = widget.totalPrice.toString();
-
     for (int i = 0; i < widget.dishesList.length; i++) {
       items[i] = {
         'dishDescription': widget.dishesList[i].dishDescription.toString(),
@@ -715,15 +713,11 @@ createOrder() {
         'resturantName': widget.dishesList[i].resturantName.toString(),
       };
     }
-
     order['items'] = items;
-
     print(order.keys.toList());
     print(order.values.toList());
-
     //add new order to FireStore database
     orders.add(order);
-
     print('order saved to FireStore successfully');
   }
  */
@@ -807,24 +801,19 @@ LAST
  */
 
 /*
-
 String userName;
   String addressInfo;
   String buildingNumber;
   String floorNumber;
   String apartmentNumber;
   String mobileNumber;
-
   // Map<dynamic, dynamic> items = {};
   List<dynamic> items = new List<dynamic>();
   Map<String, dynamic> order = {};
-
   CollectionReference orders = FirebaseFirestore.instance.collection('Orders');
-
   createOrder() {
     final f = new DateFormat('dd-MM-yyyy hh:mm a');
     String formattedDate = f.format(new DateTime.now());
-
     order['orderAddress'] = {
       'addressInfo': addressInfo.toString(),
       'builldingNumber': buildingNumber.toString(),
@@ -839,7 +828,6 @@ String userName;
     order['paymentMethod'] = 'Cash On Delivery';
     order['restaurantID'] = (widget.dishesList[0].restaurantId).toString();
     order['totalPrice'] = widget.totalPrice.toString();
-
     for (int i = 0; i < widget.dishesList.length; i++) {
       items.add({
         'dishDescription': widget.dishesList[i].dishDescription.toString(),
@@ -856,15 +844,11 @@ String userName;
         'resturantName': widget.dishesList[i].resturantName.toString(),
       });
     }
-
     order['items'] = items;
-
     print(order.keys.toList());
     print(order.values.toList());
-
     //add new order to FireStore database
     orders.add(order);
-
     print('order saved to FireStore successfully');
   }
  */

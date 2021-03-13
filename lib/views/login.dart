@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
   TextEditingController _passwordcontroller = TextEditingController();
 
   String _validateEmail(String value) {
-    if (value.isEmpty) return 'Name is required.';
+    if (value.isEmpty) return 'Email is required.';
 
     final RegExp emailExp = RegExp(
         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
@@ -198,17 +198,18 @@ class _LoginState extends State<Login> {
                               style: TextStyle(color: Colors.grey),
                             ),
                             InkWell(
-                                onTap: () {
-                                  Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => SignUp()),
-                                      ModalRoute.withName("/SignUp"));
-                                },
-                                child: Text(
-                                  " Sign Up",
-                                  style: TextStyle(color: Color(0xffE5533A)),
-                                )),
+                              onTap: () {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUp()),
+                                    ModalRoute.withName("/SignUp"));
+                              },
+                              child: Text(
+                                " Sign Up",
+                                style: TextStyle(color: Color(0xffE5533A)),
+                              ),
+                            ),
                           ],
                         ),
                       ],

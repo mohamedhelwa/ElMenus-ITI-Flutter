@@ -91,6 +91,8 @@ class _ResturantsState extends State<Resturants> {
                                       // width: 340,
                                       // height: 240,
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           CarouselSlider(
                                             options: CarouselOptions(
@@ -150,6 +152,8 @@ class _ResturantsState extends State<Resturants> {
                                                 padding:
                                                     const EdgeInsets.all(4.0),
                                                 child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       resturant.data()[
@@ -171,49 +175,42 @@ class _ResturantsState extends State<Resturants> {
                                                         fontWeight:
                                                             FontWeight.w400,
                                                       ),
-                                                    )
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              right: 10),
+                                                      child: SmoothStarRating(
+                                                        rating: resturant
+                                                            .data()['rate'],
+                                                        isReadOnly: true,
+                                                        size: 20,
+                                                        filledIconData:
+                                                            Icons.star,
+                                                        halfFilledIconData:
+                                                            Icons.star_half,
+                                                        defaultIconData:
+                                                            Icons.star_border,
+                                                        color:
+                                                            Colors.orange[800],
+                                                        borderColor:
+                                                            Colors.orange[800],
+                                                        starCount: 5,
+                                                        spacing: 1.5,
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 30.0,
-                                                          bottom: 8.0,
-                                                          right: 5.0),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment.end,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                right: 10),
-                                                        child: SmoothStarRating(
-                                                          rating: resturant
-                                                              .data()['rate'],
-                                                          isReadOnly: true,
-                                                          size: 20,
-                                                          filledIconData:
-                                                              Icons.star,
-                                                          halfFilledIconData:
-                                                              Icons.star_half,
-                                                          defaultIconData:
-                                                              Icons.star_border,
-                                                          color: Colors
-                                                              .orange[800],
-                                                          borderColor: Colors
-                                                              .orange[800],
-                                                          starCount: 5,
-                                                          spacing: 1.5,
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                                              // Expanded(
+                                              //   child: Row(
+                                              //     // mainAxisAlignment:
+                                              //     //     MainAxisAlignment.end,
+                                              //     children: [
+                                              //
+                                              //     ],
+                                              //   ),
+                                              // ),
                                             ],
                                           ),
                                           Container(

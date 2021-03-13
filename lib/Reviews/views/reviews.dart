@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'reviewCard.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Reviews extends StatefulWidget {
   String restaurantId;
@@ -19,13 +20,14 @@ class _ReviewsState extends State<Reviews> {
 
   CollectionReference reviews =
       FirebaseFirestore.instance.collection('Reviews');
+  final userId = FirebaseAuth.instance.currentUser.uid;
   addReview() {
     Map<String, dynamic> review = {
       'userName': userName,
       'reviewRate': reviewRate,
       'reviewText': reviewText,
       'restaurantId': widget.restaurantId,
-      'userId': '4mh6SRXFqtWfeuQfXJ9Z48WMCeu1'
+      'userId': userId.toString(),
     };
     reviews.add(review);
     print('New review added successfully');

@@ -49,7 +49,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
         ),
       ),
       body: SlidingUpPanel(
-        minHeight: MediaQuery.of(context).size.height - 550,
+        minHeight: MediaQuery.of(context).size.height - 370,
         maxHeight: MediaQuery.of(context).size.height - 100,
         panelBuilder: (scrollController) => buildSlidingPanel(
           scrollController: scrollController,
@@ -83,7 +83,7 @@ class _PlaceOrderState extends State<PlaceOrder> {
                       child: Image.asset('assets/images/background 1.png'),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
                       child: Column(
                         children: [
                           Row(
@@ -115,28 +115,20 @@ class _PlaceOrderState extends State<PlaceOrder> {
                           ),
                           Card(
                             child: Padding(
-                              padding: const EdgeInsets.all(15.0),
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 10,
+                                horizontal: 5,
+                              ),
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Row(
                                     children: [
-                                      // Text(
-                                      //   'ETA',
-                                      //   style: TextStyle(
-                                      //     color: Colors.grey,
-                                      //     fontSize: 15.0,
-                                      //   ),
-                                      // ),
-                                      // SizedBox(
-                                      //   width: 5.0,
-                                      // ),
                                       Text(
                                         orderDate,
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 15.0,
                                         ),
                                       ),
                                     ],
@@ -144,43 +136,20 @@ class _PlaceOrderState extends State<PlaceOrder> {
                                   Row(
                                     children: [
                                       Text(
-                                        'Total',
+                                        'Total ',
                                         style: TextStyle(
                                           color: Colors.grey,
                                           fontSize: 15.0,
                                         ),
                                       ),
-                                      SizedBox(
-                                        width: 5.0,
-                                      ),
                                       Text(
-                                        totalPrice + 'EGP ',
+                                        totalPrice + ' EGP',
                                         style: TextStyle(
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
                                     ],
                                   ),
-                                  // Expanded(
-                                  //   child: Row(
-                                  //     children: [
-                                  //       Icon(
-                                  //         Icons.account_balance_wallet,
-                                  //         color: Colors.amber,
-                                  //         size: 20,
-                                  //       ),
-                                  //       SizedBox(
-                                  //         width: 2.0,
-                                  //       ),
-                                  //       Text(
-                                  //         'Cash',
-                                  //         style: TextStyle(
-                                  //             color: Colors.grey,
-                                  //             fontWeight: FontWeight.bold),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
                                 ],
                               ),
                             ),
