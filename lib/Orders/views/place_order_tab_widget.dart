@@ -30,6 +30,7 @@ class PlaceOrderTabWidget extends StatelessWidget {
             return Loading();
           }
           return ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: snapshot.data.docs.length,
             //itemCount: snapshot.data.docs[0].data(),
             itemBuilder: (BuildContext context, int index) {
@@ -58,8 +59,8 @@ class PlaceOrderTabWidget extends StatelessWidget {
                         const Divider(
                           height: 20,
                           thickness: 8,
-                          indent: 140,
-                          endIndent: 140,
+                          indent: 100,
+                          endIndent: 100,
                         ),
                         SizedBox(
                           height: 20.0,
@@ -105,28 +106,26 @@ class PlaceOrderTabWidget extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 50.0,
+                          height: 10.0,
                         ),
                         Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
+                            Text(
+                              'Status: ',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                              ),
+                            ),
                             Text(
                               orderStatus,
                               style: TextStyle(
+                                color: (orderStatus.toLowerCase() == 'active')
+                                    ? Colors.deepOrange
+                                    : Colors.black,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 27.0,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Your order has been sent to the restaurant',
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  color: Colors.black54,
-                                ),
                               ),
                             ),
                           ],
@@ -137,55 +136,99 @@ class PlaceOrderTabWidget extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Icon(Icons.location_on),
+                            Column(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  size: 40,
+                                ),
+                              ],
+                            ),
                             SizedBox(
                               width: 10.0,
                             ),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-///////////////Address/////////////
-                                  Text(
-                                    adrressInfo,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('Info: '),
+                                    Text(
+                                      adrressInfo + '  |  ',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    'Apart: #' +
-                                        ApartNumber +
-                                        '  | Building: #' +
-                                        buildingNumber +
-                                        '  | Floor: #' +
-                                        floorNumber,
-                                    style: TextStyle(
-                                      fontSize: 17.0,
-                                      color: Colors.black54,
+                                    Text('Apart: #'),
+                                    Text(
+                                      ApartNumber,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text('Building: #'),
+                                    Text(
+                                      buildingNumber + '  |  ',
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
+                                    ),
+                                    Text('Floor: #'),
+                                    Text(
+                                      floorNumber,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
+                            // Expanded(
+                            //   child: Column(
+                            //     crossAxisAlignment: CrossAxisAlignment.start,
+                            //     children: [
+                            //       Text(
+                            //         '  | Building: #' +
+                            //             buildingNumber +
+                            //             '  | Floor: #' +
+                            //             floorNumber,
+                            //         style: TextStyle(
+                            //           fontSize: 17.0,
+                            //           color: Colors.black54,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                         SizedBox(
-                          height: 30.0,
+                          height: 10.0,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Icon(Icons.list_alt),
                             SizedBox(
-                              width: 10.0,
+                              width: 5.0,
                             ),
                             Text(
                               'Order Details',
                               style: TextStyle(
-                                fontSize: 20.0,
+                                // fontSize: 20.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black87,
                               ),
+                            ),
+                            SizedBox(
+                              width: 5.0,
                             ),
                             ElevatedButton(
                               child: Text('Cancel Order'),
@@ -194,13 +237,13 @@ class PlaceOrderTabWidget extends StatelessWidget {
                                 onPrimary: Colors.white,
                                 shape: const BeveledRectangleBorder(
                                   borderRadius: BorderRadius.all(
-                                    Radius.circular(8),
+                                    Radius.circular(2),
                                   ),
                                 ),
                                 textStyle: TextStyle(
-                                  fontSize: 20,
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic,
+                                  // fontStyle: FontStyle.italic,
                                 ),
                               ),
                               onPressed: () {
@@ -229,24 +272,18 @@ class PlaceOrderTabWidget extends StatelessWidget {
                                         onPressed: () {
                                           Navigator.pop(context, 'Dismiss');
                                           Navigator.pushAndRemoveUntil(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MainPage()),
-                                              ModalRoute.withName("/MainPage"));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => MainPage(),
+                                            ),
+                                            ModalRoute.withName("/MainPage"),
+                                          );
                                         },
                                         child: const Text('Ok'),
                                       ),
                                     ],
                                   ),
                                 );
-                                // Navigator.pushAndRemoveUntil(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (context) => MainPage(),
-                                //     ),
-                                //     ModalRoute.withName("/MainPage"));
-//print('Cancel Order Pressed');
                               },
                             ),
                           ],
@@ -278,28 +315,26 @@ class PlaceOrderTabWidget extends StatelessWidget {
                                 return Padding(
                                   padding: const EdgeInsets.only(top: 20.0),
                                   child: new Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(
-                                            'X' +
-                                                dishesQuantity +
-                                                ' ' +
-                                                dishName,
-                                            style: TextStyle(
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              fontSize: 17.0,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          Text(
-                                            dishTotalPrice + ' EGP',
-                                            style: TextStyle(
-                                              fontSize: 15.0,
-                                              fontWeight: FontWeight.bold,
+                                          Expanded(
+                                            child: Text(
+                                              'X' +
+                                                  dishesQuantity +
+                                                  ' ' +
+                                                  dishName,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: Colors.black
+                                                    .withOpacity(0.5),
+                                                fontSize: 17.0,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -307,7 +342,16 @@ class PlaceOrderTabWidget extends StatelessWidget {
                                       SizedBox(
                                         height: 10.0,
                                       ),
-
+                                      Text(
+                                        dishTotalPrice + ' EGP',
+                                        style: TextStyle(
+                                          fontSize: 15.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.0,
+                                      ),
                                       Row(
                                         children: [
                                           Expanded(
@@ -325,49 +369,6 @@ class PlaceOrderTabWidget extends StatelessWidget {
                                         height: 20,
                                         thickness: 2,
                                       ),
-
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Text(
-                                      //       'Extra: Chicken MACDO',
-                                      //       style: TextStyle(
-                                      //         color:
-                                      //             Colors.black.withOpacity(0.5),
-                                      //       ),
-                                      //     ),
-                                      //     Text('0.00 EGP'),
-                                      //   ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Text(
-                                      //       'Extra: Chicken MACDO',
-                                      //       style: TextStyle(
-                                      //         color:
-                                      //             Colors.black.withOpacity(0.5),
-                                      //       ),
-                                      //     ),
-                                      //     Text('0.00 EGP'),
-                                      //   ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment:
-                                      //       MainAxisAlignment.spaceBetween,
-                                      //   children: [
-                                      //     Text(
-                                      //       'Extra: Chicken MACDO',
-                                      //       style: TextStyle(
-                                      //         color:
-                                      //             Colors.black.withOpacity(0.5),
-                                      //       ),
-                                      //     ),
-                                      //     Text('0.00 EGP'),
-                                      //   ],
-                                      // ),
                                     ],
                                   ),
                                 );

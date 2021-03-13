@@ -81,24 +81,16 @@ class _DishDetailsState extends State<DishDetails> {
                       backgroundColor: Colors.grey[300],
                     ),
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             primary: Colors.deepOrange),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.lock,
-                              color: Colors.white,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'Add to basket',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Add to basket',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                         onPressed: () {
                           Dish selectedDish = new Dish(
@@ -119,46 +111,46 @@ class _DishDetailsState extends State<DishDetails> {
                           bool flag = cart.addToCart(selectedDish);
                           if (!flag) {
                             showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                      title: const Text(
-                                        'ALERT',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                title: const Text(
+                                  'ALERT',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                content: const Text(
+                                  'You can\'t order from different restaurants!',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pop(context, 'Dismiss');
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => CartPage(),
+                                          //MyOrdersPage(orderId: orderId),
                                         ),
-                                      ),
-                                      content: const Text(
-                                        'You can\'t order from different restaurants!',
-                                        style: TextStyle(
-                                          fontSize: 18,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context, 'Dismiss');
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    CartPage(),
-                                                //MyOrdersPage(orderId: orderId),
-                                              ),
-                                            );
-                                          },
-                                          child: const Text('OK'),
-                                        ),
-                                      ],
-                                    ));
+                                      );
+                                    },
+                                    child: const Text('OK'),
+                                  ),
+                                ],
+                              ),
+                            );
                           }
                           print(selectedDish);
                           print('added to cart');
                           Navigator.pop(context);
                         },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),

@@ -62,12 +62,12 @@ class _PreviousOrderCardState extends State<PreviousOrderCard> {
           Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(5.0),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(35.0),
+                  borderRadius: BorderRadius.circular(15.0),
                   child: Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(5.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12.0),
                         child: Image.network(
@@ -84,41 +84,63 @@ class _PreviousOrderCardState extends State<PreviousOrderCard> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        widget.restaurantName,
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        width: 25.0,
-                      ),
-                      Text(
-                        widget.totalPrice + ' EGP',
-                        style: TextStyle(
-                          color: Colors.black54,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
-                      )
-                    ],
+                  Text(
+                    widget.restaurantName,
+                    style: TextStyle(
+                      fontSize: 25.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   SizedBox(
                     height: 8.0,
                   ),
-                  Text(
-                    widget.itemsQuantity.toString() +
-                        ' Items. ${widget.orderStatus.toString()}',
-                    style: TextStyle(
-                      color: (widget.orderStatus.toString() == 'active')
-                          ? Colors.deepOrange
-                          : Colors.black54,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17.0,
-                    ),
+                  Row(
+                    children: [
+                      Text(
+                        'Total: ',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      Text(
+                        widget.totalPrice + ' EGP',
+                        style: TextStyle(
+                          color: Colors.deepOrange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        widget.itemsQuantity.toString(),
+                        style: TextStyle(
+                          color: Colors.deepOrange,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      Text(
+                        ' Items | ',
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontSize: 16.0,
+                        ),
+                      ),
+                      Text(
+                        widget.orderStatus.toString(),
+                        style: TextStyle(
+                          color: (widget.orderStatus.toString() == 'active')
+                              ? Colors.deepOrange
+                              : Colors.black54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                        ),
+                      ),
+                    ],
                   ),
                   Text(
                     widget.orderDate,

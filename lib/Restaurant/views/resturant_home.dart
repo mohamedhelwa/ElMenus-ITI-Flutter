@@ -79,38 +79,55 @@ class _RestaurantHomeState extends State<RestaurantHome>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            snapshot.data()['restaurantName'],
-            style: TextStyle(fontSize: 30),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              snapshot.data()['restaurantName'],
+              style: TextStyle(fontSize: 30),
+            ),
           ),
-          Row(
-            children: [
-              RatingBarIndicator(
-                rating: 3.5,
-                itemBuilder: (context, index) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Row(
+              children: [
+                RatingBarIndicator(
+                  rating: 3.5,
+                  itemBuilder: (context, index) => Icon(
+                    Icons.star,
+                    color: Colors.amber,
+                  ),
+                  itemCount: 5,
+                  itemSize: 20.0,
+                  direction: Axis.horizontal,
                 ),
-                itemCount: 5,
-                itemSize: 20.0,
-                direction: Axis.horizontal,
-              ),
-              SvgPicture.asset('assets/images/hygeine.svg')
-            ],
+                SizedBox(
+                  width: 10,
+                ),
+                SvgPicture.asset('assets/images/hygeine.svg')
+              ],
+            ),
           ),
-          Text(
-            snapshot.data()['restaurantType'],
-            style: TextStyle(
-                fontWeight: FontWeight.bold, fontSize: 15, color: Colors.grey),
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Text(
+              snapshot.data()['restaurantType'],
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 15,
+                  color: Colors.grey),
+            ),
           ),
-          Row(
-            children: [
-              Icon(
-                Icons.location_on,
-                size: 20,
-              ),
-              Text(snapshot.data()['adress']),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(left: 6),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.location_on,
+                  size: 20,
+                ),
+                Text(snapshot.data()['adress']),
+              ],
+            ),
           ),
           Padding(
             padding:
@@ -128,7 +145,7 @@ class _RestaurantHomeState extends State<RestaurantHome>
                         color: Colors.grey[800],
                       ),
                       Text(
-                        '40 mins',
+                        '40 min',
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey[800]),
@@ -290,6 +307,7 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
           elevation: 0,
           color: Colors.transparent,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
                 decoration: BoxDecoration(
@@ -303,39 +321,41 @@ class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 150),
+                padding: const EdgeInsets.only(left: 75, bottom: 20),
                 child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 3, color: Colors.white),
-                      borderRadius: BorderRadius.circular(50),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(width: 3, color: Colors.white),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.people,
+                      color: Colors.deepOrange,
+                      size: 40,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.people,
-                        color: Colors.deepOrange,
-                        size: 40,
-                      ),
-                    )),
+                  ),
+                ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 30, right: 10),
+                padding: const EdgeInsets.only(left: 10, bottom: 20),
                 child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(width: 3, color: Colors.white),
-                      borderRadius: BorderRadius.circular(50),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(width: 3, color: Colors.white),
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.call,
+                      color: Colors.deepOrange,
+                      size: 40,
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        Icons.call,
-                        color: Colors.deepOrange,
-                        size: 40,
-                      ),
-                    )),
-              )
+                  ),
+                ),
+              ),
             ],
           ),
         ),
