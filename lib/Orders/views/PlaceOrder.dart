@@ -12,7 +12,7 @@ class PlaceOrder extends StatefulWidget {
   String orderId;
   // String orderStatus;
   // String orderAddress;
-  PlaceOrder({@required this.orderId});
+  PlaceOrder({this.orderId});
 
   @override
   _PlaceOrderState createState() => _PlaceOrderState();
