@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 class Cart extends ChangeNotifier{
   List<Dish> _dishes = [];
-  double _totalPrice = 0.0;
+  double _totalPrice = 0;
 
   void addToCart(Dish dish){
     _dishes.add(dish);
