@@ -19,10 +19,10 @@ class _CartPageState extends State<CartPage> {
           child: Scaffold(
               appBar: AppBar(
                 backgroundColor: Colors.deepOrange,
-                title: Text('Cart Total Price [EGP ${cart.cartTotalPrice}]'),
+                title: Text('Basket Total Price [EGP ${cart.cartTotalPrice}]'),
               ),
               body: cart.cartItems.length == 0
-                  ? Center(child: Text('No Items in Cart'))
+                  ? Center(child: Text('No Items in Basket'))
                   : SingleChildScrollView(
                       child: Container(
                         child: Column(

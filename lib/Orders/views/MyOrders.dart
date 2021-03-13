@@ -7,7 +7,7 @@ import 'PreviousOrderCard.dart';
 
 class MyOrdersPage extends StatefulWidget {
   String orderId;
-  MyOrdersPage({@required this.orderId});
+  MyOrdersPage({this.orderId});
   @override
   _MyOrdersPageState createState() => _MyOrdersPageState();
 }
